@@ -11,11 +11,11 @@ public class Like extends BusinessObject {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private Date erstellungszeitpunkt = null;
+	private Date erstellungszeitpunkt = new Date();
 	
-	private int ersteller_Id = 0;
+	private Integer ersteller_Id = 0;
 	
-	private int beitrag_Id = 0;
+	private Integer beitrag_Id = 0;
 	
 	public void setErstellungszeitpunkt(Date erstellungszeitpunkt){
 		this.erstellungszeitpunkt=erstellungszeitpunkt;

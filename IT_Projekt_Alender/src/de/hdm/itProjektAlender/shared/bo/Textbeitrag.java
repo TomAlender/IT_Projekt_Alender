@@ -2,26 +2,38 @@ package de.hdm.itProjektAlender.shared.bo;
 
 import java.util.Date;
 
-public class Pinnwand {
+public class Textbeitrag {
 
 	private Date erstellungszeitpunkt = new Date();
-	private int ersteller_Id = 0;
 	
+	private String text = null;
+	
+	private Integer ersteller_Id = 0;
+
 	public Date getErstellungszeitpunkt() {
 		return erstellungszeitpunkt;
 	}
-	
+
 	public void setErstellungszeitpunkt(Date erstellungszeitpunkt) {
 		this.erstellungszeitpunkt = erstellungszeitpunkt;
 	}
-	
-	public int getErsteller_Id() {
+
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
+
+	public Integer getErsteller_Id() {
 		return ersteller_Id;
 	}
-	
-	public void setErsteller_Id(int ersteller_Id) {
+
+	public void setErsteller_Id(Integer ersteller_Id) {
 		this.ersteller_Id = ersteller_Id;
 	}
 	
-	 
+	
+	
 }
