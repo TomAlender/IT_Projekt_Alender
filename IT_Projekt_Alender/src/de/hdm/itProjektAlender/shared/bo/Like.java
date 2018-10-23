@@ -25,19 +25,19 @@ public class Like extends BusinessObject {
 		return erstellungszeitpunkt;
 	}
 	
-	public void setErstellerId (int ersteller_Id){
+	public void setErstellerId (Integer ersteller_Id){
 		this.ersteller_Id = ersteller_Id;
 	}
 	
-	public int getErstellerId (){
+	public Integer getErstellerId (){
 		return ersteller_Id;
 	}	
 	
-	public int getBeitrag_Id() {
+	public Integer getBeitrag_Id() {
 		return beitrag_Id;
 	}
 	
-	public void setBeitrag_Id(int beitrag_Id) {
+	public void setBeitrag_Id(Integer beitrag_Id) {
 		this.beitrag_Id = beitrag_Id;
 	}
 }

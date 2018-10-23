@@ -5,7 +5,7 @@ import java.util.Date;
 public class Pinnwand {
 
 	private Date erstellungszeitpunkt = new Date();
-	private int ersteller_Id = 0;
+	private Integer ersteller_Id = 0;
 	
 	public Date getErstellungszeitpunkt() {
 		return erstellungszeitpunkt;
@@ -15,11 +15,11 @@ public class Pinnwand {
 		this.erstellungszeitpunkt = erstellungszeitpunkt;
 	}
 	
-	public int getErsteller_Id() {
+	public Integer getErsteller_Id() {
 		return ersteller_Id;
 	}
 	
-	public void setErsteller_Id(int ersteller_Id) {
+	public void setErsteller_Id(Integer ersteller_Id) {
 		this.ersteller_Id = ersteller_Id;
 	}
 	
