@@ -2,7 +2,7 @@ package de.hdm.itProjektAlender.shared.bo;
 
 import java.util.Date;
 
-import de.hdm.itProjektTA.shared.bo.BusinessObject;
+import de.hdm.itProjektAlender.shared.bo.BusinessObject;
 
 public class Like extends BusinessObject {
 	
@@ -31,10 +31,13 @@ public class Like extends BusinessObject {
 	
 	public int getErstellerId (){
 		return ersteller_Id;
+	}	
+	
+	public int getBeitrag_Id() {
+		return beitrag_Id;
 	}
 	
-	
-	
-	
-
+	public void setBeitrag_Id(int beitrag_Id) {
+		this.beitrag_Id = beitrag_Id;
+	}
 }
