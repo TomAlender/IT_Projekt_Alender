@@ -2,7 +2,9 @@ package de.hdm.itProjektAlender.shared.bo;
 
 import java.util.Date;
 
-public class Nutzer {
+public class Nutzer extends BusinessObject{
+	
+	private static final long serialVersionUID = 1L;
 	
 	private Date erstellungszeitpunkt = new Date();
 	
