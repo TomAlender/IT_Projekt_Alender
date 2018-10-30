@@ -2,7 +2,7 @@ package de.hdm.itProjektAlender.shared.bo;
 
 import java.util.Date;
 
-public class Textbeitrag {
+public class Textbeitrag extends BusinessObject {
 
 	private Date erstellungszeitpunkt = new Date();
 	

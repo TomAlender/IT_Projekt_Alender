@@ -7,30 +7,30 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Vector;
 
-import de.hdm.itProjektAlender.shared.bo.Nutzer;
+
 import de.hdm.itProjektAlender.shared.bo.*;
 
 
 
-public class NutzerMapper {
+public class TextbeitragMapper {
 	
-	private static NutzerMapper nutzerMapper = null;
+	private static TextbeitragMapper textbeitragMapper = null;
 	
 	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd k:mm:s");
 	
-	protected NutzerMapper(){
+	protected TextbeitragMapper(){
 		
 	}
 
-	public static NutzerMapper nutzerMapper() {
-		if (nutzerMapper == null) {
-			nutzerMapper = new NutzerMapper();
+	public static TextbeitragMapper textbeitragMapper() {
+		if (textbeitragMapper == null) {
+			textbeitragMapper = new TextbeitragMapper();
 		}
 
-		return nutzerMapper;
+		return textbeitragMapper;
 	}
 	
-	public Nutzer findNutzerById(int id) {
+	public Textbeitrag findTextbeitragById(int id) {
 		// DB-Verbindung holen
 		Connection con = DBConnection.connection();
 
@@ -40,7 +40,7 @@ public class NutzerMapper {
 
 			// Statement ausfüllen und als Query an die DB schicken
 			ResultSet rs = stmt.executeQuery(
-					"SELECT Nutzer_Id, Vorname, Nachname, Nickname, Erstellungszeitpunkt FROM nutzer " + "WHERE Nutzer_Id=" + id + " ORDER BY Nachname");
+					"SELECT Textbeitrag_Id, Text, Ersteller_Id, Erstellungszeitpunkt FROM textbeitrag " + "WHERE Textbeitrag_Id=" + id);
 
 			/*
 			 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
@@ -48,14 +48,14 @@ public class NutzerMapper {
 			 */
 			if (rs.next()) {
 				// Ergebnis-Tupel in Objekt umwandeln
-				Nutzer n = new Nutzer();
-				n.setId(rs.getInt("Nutzer_Id"));
-				n.setVorname(rs.getString("Vorname"));
-				n.setNachname(rs.getString("Nachname"));
-				n.setNickname(rs.getString("Nickname"));
-				n.setErstellungszeitpunkt(rs.getDate("Erstellungszeitpunkt"));
+				Textbeitrag t = new Textbeitrag();
+				t.setId(rs.getInt("Nutzer_Id"));
+				t.setText(rs.getString("Text"));
+				t.setErstellungszeitpunkt(rs.getDate("Erstellungszeitpunkt"));
+				t.setErsteller_Id(rs.getInt("Ersteller_Id"));
+				
 
-				return n;
+				return t;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -65,41 +65,13 @@ public class NutzerMapper {
 		return null;
 	}
 	
-	protected Nutzer findByObject(Nutzer n){
-		return this.findNutzerById(n.getId()); 
+	protected Textbeitrag findByObject(Textbeitrag t){
+		return this.findTextbeitragById(t.getId()); 
 	}
 	
-	public Vector<Nutzer> findAllPerson(){
-		Connection con = DBConnection.connection();
-		
-		Vector<Nutzer> result = new Vector<Nutzer>();
-		
-		try{
-			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * "
-					+ " FROM nutzer ORDER BY Nutzer_Id");
-			
-			
-			while (rs.next()){
-				Nutzer n = new Nutzer();
-				n.setId(rs.getInt("Nutzer_Id"));
-				n.setVorname(rs.getString("Vorname"));
-				n.setNachname(rs.getString("Nachname"));
-				n.setNickname(rs.getString("Nickname"));
-				n.setErstellungszeitpunkt(rs.getDate("Erstellungszeitpunkt"));
-				
-				
-				result.add(n);
-				} 
-			}  
-		catch (SQLException e) {
-		e.printStackTrace();
-		}
-		return result;
-		
-	}
 	
-	public Nutzer insert(Nutzer n) {
+	
+	public Textbeitrag insert(Textbeitrag t) {
 		Connection con = DBConnection.connection();
 
 		try {
@@ -109,7 +81,7 @@ public class NutzerMapper {
 			 * Zunächst schauen wir nach, welches der momentan höchste
 			 * Primärschlüsselwert ist.
 			 */
-			ResultSet rs = stmt.executeQuery("SELECT MAX(Nutzer_Id) AS maxid " + "FROM nutzer ");
+			ResultSet rs = stmt.executeQuery("SELECT MAX(Nutzer_Id) AS maxid " + "FROM textbeitragr ");
 
 			// Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
 			if (rs.next()) {
@@ -117,13 +89,13 @@ public class NutzerMapper {
 				 * n erhält den bisher maximalen, nun um 1 inkrementierten
 				 * Primärschlüssel.
 				 */
-				n.setId(rs.getInt("maxid") + 1);
+				t.setId(rs.getInt("maxid") + 1);
 
 				stmt = con.createStatement();
 
 				// Jetzt erst erfolgt die tatsächliche Einfügeoperation
-				stmt.executeUpdate("INSERT INTO nutzer (Nutzer_Id, Vorname, Nachname, Nickname, Erstellungszeitpunkt ) " + "VALUES (" + n.getId() + ",'"
-						+ n.getVorname() + "','" + n.getNachname() + "','" + n.getNickname() + "','" + format.format(n.getErstellungszeitpunkt()) + "')");
+				stmt.executeUpdate("INSERT INTO nutzer (Textbeitrag_Id, Ersteller_Id, Text, Erstellungszeitpunkt ) " + "VALUES (" + t.getId() + ",'"
+						+ t.getErsteller_Id() + "','" + t.getText() + "','" + format.format(t.getErstellungszeitpunkt()) + "')");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -139,7 +111,7 @@ public class NutzerMapper {
 		 * signalisieren, dass sich das Objekt evtl. im Laufe der Methode
 		 * verändert hat.
 		 */
-		return n;
+		return t;
 	}
 
 	/**
@@ -149,22 +121,20 @@ public class NutzerMapper {
 	 *            das Objekt, das in die DB geschrieben werden soll
 	 * @return das als Parameter übergebene Objekt
 	 */
-	public Nutzer update(Nutzer n) {
+	public Textbeitrag update(Textbeitrag t) {
 		Connection con = DBConnection.connection();
 
 		try {
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("UPDATE nutzer " + "SET Vorname=\"" + n.getVorname() + "\", " + "lastName=\""
-					+ n.getNachname()+ "\", " + "Nickname=\""
-					+ n.getNickname()+ "\" " + "WHERE id=" + n.getId());
+			stmt.executeUpdate("UPDATE textbeitrag " + "SET Text=\"" + t.getText() +  "WHERE id=" + t.getId());
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
 		// Um Analogie zu insert(Customer c) zu wahren, geben wir c zurück
-		return n;
+		return t;
 	}
 
 	/**
@@ -173,13 +143,13 @@ public class NutzerMapper {
 	 * @param c
 	 *            das aus der DB zu löschende "Objekt"
 	 */
-	public void delete(Nutzer n) {
+	public void delete(Textbeitrag t) {
 		Connection con = DBConnection.connection();
 
 		try {
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("DELETE FROM nutzer " + "WHERE Nutzer_Id=" + n.getId());
+			stmt.executeUpdate("DELETE FROM textbeitrag " + "WHERE Textbeitrag_Id=" + t.getId());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

@@ -123,7 +123,7 @@ public class PinnwandMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("DELETE FROM pinnwand " + "WHERE id=" + p.getId());
+			stmt.executeUpdate("DELETE FROM pinnwand " + "WHERE Pinnwand_Id=" + p.getId());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
