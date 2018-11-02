@@ -1,9 +1,13 @@
 package de.hdm.itProjektAlender.shared.bo;
 
-public class Beitrag {
+public class Beitrag extends Textbeitrag {
+	
+	private static final long serialVersionUID = 1L;
+
 	
 	private Integer pinnwand_Id;
-
+	
+	
 	public Integer getPinnwand_Id() {
 		return pinnwand_Id;
 	}

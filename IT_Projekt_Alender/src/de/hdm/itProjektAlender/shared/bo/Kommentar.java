@@ -1,6 +1,9 @@
 package de.hdm.itProjektAlender.shared.bo;
 
-public class Kommentar {
+public class Kommentar extends Textbeitrag {
+	
+	private static final long serialVersionUID = 1L;
+
 	
 	private Integer beitrag_Id;
 

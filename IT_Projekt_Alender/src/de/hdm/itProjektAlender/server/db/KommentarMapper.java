@@ -5,32 +5,32 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
-
+import java.util.Vector;
 
 
 import de.hdm.itProjektAlender.shared.bo.*;
 
 
 
-public class BeitragMapper extends TextbeitragMapper {
+public class KommentarMapper extends TextbeitragMapper {
 	
-	private static BeitragMapper beitragMapper = null;
+	private static KommentarMapper kommentarMapper = null;
 	
 	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd k:mm:s");
 	
-	protected BeitragMapper(){
+	protected KommentarMapper(){
 		
 	}
 
-	public static BeitragMapper beitragMapper() {
-		if (beitragMapper == null) {
-			beitragMapper = new BeitragMapper();
+	public static KommentarMapper kommentarMapper() {
+		if (kommentarMapper == null) {
+			kommentarMapper = new KommentarMapper();
 		}
 
-		return beitragMapper;
+		return kommentarMapper;
 	}
 	
-	public Beitrag findBeitragById(int id) {
+	public Kommentar findKommentarById(int id) {
 		// DB-Verbindung holen
 		Connection con = DBConnection.connection();
 
@@ -40,7 +40,7 @@ public class BeitragMapper extends TextbeitragMapper {
 
 			// Statement ausfüllen und als Query an die DB schicken
 			ResultSet rs = stmt.executeQuery(
-					"SELECT Beitrag_Id, Pinnwand_Id FROM beitrag " + "WHERE Beitrag_Id=" + id);
+					"SELECT Kommentar_Id, Beitrag_Id FROM kommentar " + "WHERE Kommentar_Id=" + id);
 
 			/*
 			 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
@@ -48,15 +48,15 @@ public class BeitragMapper extends TextbeitragMapper {
 			 */
 			if (rs.next()) {
 				// Ergebnis-Tupel in Objekt umwandeln
-				Beitrag b = new Beitrag();
-				b.setId(rs.getInt("Beitrag_Id"));
-				b.setPinnwand_Id(rs.getInt("Pinnwand_Id"));
-				b.setErstellungszeitpunkt(super.findTextbeitragById(id).getErstellungszeitpunkt());
-				b.setErsteller_Id(super.findTextbeitragById(id).getErsteller_Id());
-				b.setText(super.findTextbeitragById(id).getText());
+				Kommentar k = new Kommentar();
+				k.setId(rs.getInt("Kommentar_Id"));
+				k.setBeitrag_Id(rs.getInt("Beitrg_Id"));
+				k.setErstellungszeitpunkt(super.findTextbeitragById(id).getErstellungszeitpunkt());
+				k.setErsteller_Id(super.findTextbeitragById(id).getErsteller_Id());
+				k.setText(super.findTextbeitragById(id).getText());
 				
 
-				return b;
+				return k;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -66,13 +66,13 @@ public class BeitragMapper extends TextbeitragMapper {
 		return null;
 	}
 	
-	protected Beitrag findByObject(Beitrag b){
-		return this.findBeitragById(b.getId()); 
+	protected Kommentar findByObject(Kommentar k){
+		return this.findKommentarById(k.getId()); 
 	}
 	
 	
 	
-	public Beitrag insert(Beitrag b) {
+	public Kommentar insert(Kommentar k) {
 		Connection con = DBConnection.connection();
 
 		try {
@@ -83,14 +83,14 @@ public class BeitragMapper extends TextbeitragMapper {
 			 * Primärschlüsselwert ist.
 			 */
 			
-			 b.setId(super.insert(b));
+			 k.setId(super.insert(k));
 			
 
 				stmt = con.createStatement();
 
 				// Jetzt erst erfolgt die tatsächliche Einfügeoperation
-				stmt.executeUpdate("INSERT INTO beitrag (Beitrag_Id, Pinnwand_Id) " + "VALUES (" + b.getId() + ",'"
-						+ b.getPinnwand_Id() + "')");
+				stmt.executeUpdate("INSERT INTO beitrag (Kommentar_Id, Beitrag_Id) " + "VALUES (" + k.getId() + ",'"
+						+ k.getBeitrag_Id() + "')");
 			}
 		 catch (SQLException e) {
 			e.printStackTrace();
@@ -106,7 +106,7 @@ public class BeitragMapper extends TextbeitragMapper {
 		 * signalisieren, dass sich das Objekt evtl. im Laufe der Methode
 		 * verändert hat.
 		 */
-		return b;
+		return k;
 	}
 
 	/**
@@ -116,14 +116,14 @@ public class BeitragMapper extends TextbeitragMapper {
 	 *            das Objekt, das in die DB geschrieben werden soll
 	 * @return das als Parameter übergebene Objekt
 	 */
-	public Beitrag update(Beitrag b) {
+	public Kommentar update(Kommentar k) {
 		//Connection con = DBConnection.connection();
-		 b.setId(super.update(b));
-	     super.textbeitragMapper().update(b);
+		 k.setId(super.update(k));
+	     super.textbeitragMapper().update(k);
 
 		
 		// Um Analogie zu insert(Customer c) zu wahren, geben wir c zurück
-		return b;
+		return k;
 	}
 
 	/**
@@ -132,14 +132,14 @@ public class BeitragMapper extends TextbeitragMapper {
 	 * @param c
 	 *            das aus der DB zu löschende "Objekt"
 	 */
-	public void delete(Beitrag b) {
+	public void delete(Kommentar k) {
 		Connection con = DBConnection.connection();
 
 		try {
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("DELETE FROM beitrag " + "WHERE Beitrag_Id=" + b.getId());
-			super.delete(b);
+			stmt.executeUpdate("DELETE FROM kommentar " + "WHERE Kommentar_Id=" + k.getId());
+			super.delete(k);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

@@ -6,31 +6,28 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 
+import de.hdm.itProjektAlender.shared.bo.Like;
 
 
-import de.hdm.itProjektAlender.shared.bo.*;
+public class LikeMapper {
 
-
-
-public class BeitragMapper extends TextbeitragMapper {
-	
-	private static BeitragMapper beitragMapper = null;
+private static LikeMapper likeMapper = null;
 	
 	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd k:mm:s");
 	
-	protected BeitragMapper(){
+	protected LikeMapper(){
 		
 	}
 
-	public static BeitragMapper beitragMapper() {
-		if (beitragMapper == null) {
-			beitragMapper = new BeitragMapper();
+	public static LikeMapper likeMapper() {
+		if (likeMapper == null) {
+			likeMapper = new LikeMapper();
 		}
 
-		return beitragMapper;
+		return likeMapper;
 	}
 	
-	public Beitrag findBeitragById(int id) {
+	public Like findLikeById(int id) {
 		// DB-Verbindung holen
 		Connection con = DBConnection.connection();
 
@@ -40,7 +37,7 @@ public class BeitragMapper extends TextbeitragMapper {
 
 			// Statement ausfüllen und als Query an die DB schicken
 			ResultSet rs = stmt.executeQuery(
-					"SELECT Beitrag_Id, Pinnwand_Id FROM beitrag " + "WHERE Beitrag_Id=" + id);
+					"SELECT Like_Id, Ersteller_Id, Beitrag_Id, Erstellungszeitpunkt FROM like1 " + "WHERE Like_Id=" + id);
 
 			/*
 			 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
@@ -48,15 +45,13 @@ public class BeitragMapper extends TextbeitragMapper {
 			 */
 			if (rs.next()) {
 				// Ergebnis-Tupel in Objekt umwandeln
-				Beitrag b = new Beitrag();
-				b.setId(rs.getInt("Beitrag_Id"));
-				b.setPinnwand_Id(rs.getInt("Pinnwand_Id"));
-				b.setErstellungszeitpunkt(super.findTextbeitragById(id).getErstellungszeitpunkt());
-				b.setErsteller_Id(super.findTextbeitragById(id).getErsteller_Id());
-				b.setText(super.findTextbeitragById(id).getText());
+				Like l = new Like();
+				l.setId(rs.getInt("Pinnwand_Id"));
+				l.setErstellerId(rs.getInt("Ersteller_Id"));
+				l.setBeitrag_Id(rs.getInt("Beitrag_Id"));
+				l.setErstellungszeitpunkt(rs.getDate("Erstellungszeitpunkt"));
 				
-
-				return b;
+				return l;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -66,13 +61,11 @@ public class BeitragMapper extends TextbeitragMapper {
 		return null;
 	}
 	
-	protected Beitrag findByObject(Beitrag b){
-		return this.findBeitragById(b.getId()); 
+	protected Like findByObject(Like l){
+		return this.findLikeById(l.getId()); 
 	}
 	
-	
-	
-	public Beitrag insert(Beitrag b) {
+	public Like insert(Like l) {
 		Connection con = DBConnection.connection();
 
 		try {
@@ -82,17 +75,23 @@ public class BeitragMapper extends TextbeitragMapper {
 			 * Zunächst schauen wir nach, welches der momentan höchste
 			 * Primärschlüsselwert ist.
 			 */
-			
-			 b.setId(super.insert(b));
-			
+			ResultSet rs = stmt.executeQuery("SELECT MAX(Pinnwand_Id) AS maxid " + "FROM pinnwand ");
+
+			// Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
+			if (rs.next()) {
+				/*
+				 * n erhält den bisher maximalen, nun um 1 inkrementierten
+				 * Primärschlüssel.
+				 */
+				l.setId(rs.getInt("maxid") + 1);
 
 				stmt = con.createStatement();
 
 				// Jetzt erst erfolgt die tatsächliche Einfügeoperation
-				stmt.executeUpdate("INSERT INTO beitrag (Beitrag_Id, Pinnwand_Id) " + "VALUES (" + b.getId() + ",'"
-						+ b.getPinnwand_Id() + "')");
+				stmt.executeUpdate("INSERT INTO like1 (Like_Id, Ersteller_Id, Beitrag_Id, Erstellungszeitpunkt) " + "VALUES (" + l.getId() + ",'"
+						+ l.getErstellerId() + "','" + l.getBeitrag_Id() + "','" + format.format(l.getErstellungszeitpunkt()) + "')");
 			}
-		 catch (SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
@@ -106,40 +105,23 @@ public class BeitragMapper extends TextbeitragMapper {
 		 * signalisieren, dass sich das Objekt evtl. im Laufe der Methode
 		 * verändert hat.
 		 */
-		return b;
+		return l;
 	}
 
-	/**
-	 * Wiederholtes Schreiben eines Objekts in die Datenbank.
-	 * 
-	 * @param c
-	 *            das Objekt, das in die DB geschrieben werden soll
-	 * @return das als Parameter übergebene Objekt
-	 */
-	public Beitrag update(Beitrag b) {
-		//Connection con = DBConnection.connection();
-		 b.setId(super.update(b));
-	     super.textbeitragMapper().update(b);
-
-		
-		// Um Analogie zu insert(Customer c) zu wahren, geben wir c zurück
-		return b;
-	}
-
+	
 	/**
 	 * Löschen der Daten eines <code>Customer</code>-Objekts aus der Datenbank.
 	 * 
 	 * @param c
 	 *            das aus der DB zu löschende "Objekt"
 	 */
-	public void delete(Beitrag b) {
+	public void delete(Like l) {
 		Connection con = DBConnection.connection();
 
 		try {
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("DELETE FROM beitrag " + "WHERE Beitrag_Id=" + b.getId());
-			super.delete(b);
+			stmt.executeUpdate("DELETE FROM like1 " + "WHERE Like_Id=" + l.getId());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
