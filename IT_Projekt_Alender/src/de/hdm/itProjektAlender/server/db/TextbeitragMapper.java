@@ -7,8 +7,8 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Vector;
 
-
 import de.hdm.itProjektAlender.shared.bo.*;
+
 
 
 
@@ -64,6 +64,34 @@ public class TextbeitragMapper {
 
 		return null;
 	}
+	
+	protected Vector <Textbeitrag> findTextbeitragByNutzer(int nutzerId){
+		
+		Connection con = DBConnection.connection();
+		Vector <Textbeitrag> t = new Vector <Textbeitrag>();
+			try{
+				Statement stmt = con.createStatement();
+				ResultSet rs = stmt.executeQuery("SELECT Organisationseinheit_Id, Strasse, Hausnummer, PLZ, Ort, Partnerprofil_Id"
+						+ " FROM organisationseinheit " + "WHERE Partnerprofil_Id=" + nutzerId);
+				
+				
+				while(rs.next()){
+					// Ergebnis-Tupel in Objekt umwandeln
+					Textbeitrag tb = new Textbeitrag();
+					tb.setId(rs.getInt("Nutzer_Id"));
+					tb.setText(rs.getString("Text"));
+					tb.setErstellungszeitpunkt(rs.getDate("Erstellungszeitpunkt"));
+					tb.setErsteller_Id(rs.getInt("Ersteller_Id"));
+					
+				t.add(tb);
+				}
+		}
+			catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+			return t;
+		}
 	
 	protected Textbeitrag findByObject(Textbeitrag t){
 		return this.findTextbeitragById(t.getId()); 

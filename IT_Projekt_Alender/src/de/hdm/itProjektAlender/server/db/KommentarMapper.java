@@ -66,11 +66,38 @@ public class KommentarMapper extends TextbeitragMapper {
 		return null;
 	}
 	
-	protected Kommentar findByObject(Kommentar k){
+	public Kommentar findByObject(Kommentar k){
 		return this.findKommentarById(k.getId()); 
 	}
 	
-	
+	public Vector <Kommentar> findKommentarByBeitrag(int beitragId){
+		
+		Connection con = DBConnection.connection();
+		Vector <Kommentar> k = new Vector <Kommentar>();
+			try{
+				Statement stmt = con.createStatement();
+				ResultSet rs = stmt.executeQuery(
+						"SELECT Kommentar_Id, Beitrag_Id FROM kommentar " + "WHERE Beitrag_Id=" + beitragId);
+				
+				
+				while(rs.next()){
+					// Ergebnis-Tupel in Objekt umwandeln
+					Kommentar ko = new Kommentar();
+					ko.setId(rs.getInt("Kommentar_Id"));
+					ko.setBeitrag_Id(rs.getInt("Beitrg_Id"));
+					ko.setErstellungszeitpunkt(super.findTextbeitragById(beitragId).getErstellungszeitpunkt());
+					ko.setErsteller_Id(super.findTextbeitragById(beitragId).getErsteller_Id());
+					ko.setText(super.findTextbeitragById(beitragId).getText());
+					
+				k.add(ko);
+				}
+		}
+			catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+			return k;
+		}
 	
 	public Kommentar insert(Kommentar k) {
 		Connection con = DBConnection.connection();

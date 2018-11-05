@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Vector;
 
 import de.hdm.itProjektAlender.shared.bo.Nutzer;
-import de.hdm.itProjektAlender.shared.bo.*;
+
 
 
 
@@ -69,7 +69,7 @@ public class NutzerMapper {
 		return this.findNutzerById(n.getId()); 
 	}
 	
-	public Vector<Nutzer> findAllPerson(){
+	public Vector<Nutzer> findAllNutzer(){
 		Connection con = DBConnection.connection();
 		
 		Vector<Nutzer> result = new Vector<Nutzer>();
@@ -166,6 +166,8 @@ public class NutzerMapper {
 		// Um Analogie zu insert(Customer c) zu wahren, geben wir c zurück
 		return n;
 	}
+	
+	
 
 	/**
 	 * Löschen der Daten eines <code>Customer</code>-Objekts aus der Datenbank.
@@ -184,6 +186,7 @@ public class NutzerMapper {
 			e.printStackTrace();
 		}
 	}
+	
 	
 
 }

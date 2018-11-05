@@ -5,14 +5,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
-
-
+import java.util.Vector;
 
 import de.hdm.itProjektAlender.shared.bo.*;
 
 
 
-public class BeitragMapper extends TextbeitragMapper {
+	public class BeitragMapper extends TextbeitragMapper {
 	
 	private static BeitragMapper beitragMapper = null;
 	
@@ -66,7 +65,37 @@ public class BeitragMapper extends TextbeitragMapper {
 		return null;
 	}
 	
-	protected Beitrag findByObject(Beitrag b){
+	public Vector <Beitrag> findBeitragByPinnwand(int kommentarId){
+		
+		Connection con = DBConnection.connection();
+		Vector <Beitrag> b = new Vector <Beitrag>();
+			try{
+				Statement stmt = con.createStatement();
+				ResultSet rs = stmt.executeQuery(
+						"SELECT Beitrag_Id, Pinnwand_Id FROM beitrag " + "WHERE Beitrag_Id=" + kommentarId);
+				
+				
+				while(rs.next()){
+					// Ergebnis-Tupel in Objekt umwandeln
+					Beitrag be = new Beitrag();
+					be.setId(rs.getInt("Beitrag_Id"));
+					be.setPinnwand_Id(rs.getInt("Pinnwand_Id"));
+					be.setErstellungszeitpunkt(super.findTextbeitragById(kommentarId).getErstellungszeitpunkt());
+					be.setErsteller_Id(super.findTextbeitragById(kommentarId).getErsteller_Id());
+					be.setText(super.findTextbeitragById(kommentarId).getText());
+					
+				b.add(be);
+				}
+		}
+			catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+			return b;
+		}
+	
+	
+	public Beitrag findByObject(Beitrag b){
 		return this.findBeitragById(b.getId()); 
 	}
 	

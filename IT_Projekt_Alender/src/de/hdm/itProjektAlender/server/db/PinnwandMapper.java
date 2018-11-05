@@ -5,9 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
-import java.util.Vector;
 
-import de.hdm.itProjektAlender.shared.bo.Nutzer;
 import de.hdm.itProjektAlender.shared.bo.*;
 
 
@@ -61,6 +59,40 @@ public class PinnwandMapper {
 		}
 
 		return null;
+	}
+	
+	public Pinnwand findPinnwandByNutzer(int nutzerId){
+		
+		Connection con = DBConnection.connection();
+		try {
+			// Leeres SQL-Statement (JDBC) anlegen
+			Statement stmt = con.createStatement();
+
+			
+			// Statement ausfüllen und als Query an die DB schicken
+			ResultSet rs = stmt.executeQuery(
+					"SELECT Pinnwand_Id, Ersteller_Id, Erstellungszeitpunkt FROM pinnwand " + "WHERE Ersteller_Id=" + nutzerId);
+
+			/*
+			 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
+			 * werden. Prüfe, ob ein Ergebnis vorliegt.
+			 */
+			if (rs.next()) {
+				// Ergebnis-Tupel in Objekt umwandeln
+				Pinnwand p = new Pinnwand();
+				p.setId(rs.getInt("Pinnwand_Id"));
+				p.setErsteller_Id(rs.getInt("Ersteller_Id"));
+				p.setErstellungszeitpunkt(rs.getDate("Erstellungszeitpunkt"));
+				
+				return p;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		return null;
+	
 	}
 	
 	protected Pinnwand findByObject(Pinnwand p){

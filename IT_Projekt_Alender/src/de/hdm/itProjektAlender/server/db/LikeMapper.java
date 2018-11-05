@@ -5,8 +5,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.Vector;
 
 import de.hdm.itProjektAlender.shared.bo.Like;
+
 
 
 public class LikeMapper {
@@ -63,6 +65,78 @@ private static LikeMapper likeMapper = null;
 	
 	protected Like findByObject(Like l){
 		return this.findLikeById(l.getId()); 
+	}
+	
+	public Vector<Like> findLikeByNutzer(int nutzerId){
+		
+		// DB-Verbindung holen
+				Connection con = DBConnection.connection();
+				Vector <Like> l = new Vector<Like>();
+				try {
+					// Leeres SQL-Statement (JDBC) anlegen
+					Statement stmt = con.createStatement();
+					
+					// Statement ausfüllen und als Query an die DB schicken
+					ResultSet rs = stmt.executeQuery(
+							"SELECT Like_Id, Ersteller_Id, Beitrag_Id, Erstellungszeitpunkt FROM like1 " + "WHERE Like_Id=" + nutzerId);
+
+					/*
+					 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
+					 * werden. Prüfe, ob ein Ergebnis vorliegt.
+					 */
+					while (rs.next()) {
+						// Ergebnis-Tupel in Objekt umwandeln
+						Like li = new Like();
+						li.setId(rs.getInt("Pinnwand_Id"));
+						li.setErstellerId(rs.getInt("Ersteller_Id"));
+						li.setBeitrag_Id(rs.getInt("Beitrag_Id"));
+						li.setErstellungszeitpunkt(rs.getDate("Erstellungszeitpunkt"));
+						
+						l.add(li);
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+					return null;
+				}
+
+				return l;
+	
+	}
+	
+	public Vector <Like> findLikeByBeitrag(int beitragId){
+		
+		// DB-Verbindung holen
+				Connection con = DBConnection.connection();
+				Vector <Like> l = new Vector<Like>();
+				try {
+					// Leeres SQL-Statement (JDBC) anlegen
+					Statement stmt = con.createStatement();
+
+					// Statement ausfüllen und als Query an die DB schicken
+					ResultSet rs = stmt.executeQuery(
+							"SELECT Like_Id, Ersteller_Id, Beitrag_Id, Erstellungszeitpunkt FROM like1 " + "WHERE Like_Id=" + beitragId);
+
+					/*
+					 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
+					 * werden. Prüfe, ob ein Ergebnis vorliegt.
+					 */
+					while (rs.next()) {
+						// Ergebnis-Tupel in Objekt umwandeln
+						Like li = new Like();
+						li.setId(rs.getInt("Pinnwand_Id"));
+						li.setErstellerId(rs.getInt("Ersteller_Id"));
+						li.setBeitrag_Id(rs.getInt("Beitrag_Id"));
+						li.setErstellungszeitpunkt(rs.getDate("Erstellungszeitpunkt"));
+						
+						l.add(li);
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+					return null;
+				}
+
+				return l;
+	
 	}
 	
 	public Like insert(Like l) {
@@ -126,6 +200,8 @@ private static LikeMapper likeMapper = null;
 			e.printStackTrace();
 		}
 	}
+	
+	
 	
 
 }
