@@ -161,7 +161,7 @@ public class NutzerMapper {
 
 				// Jetzt erst erfolgt die tatsächliche Einfügeoperation
 				stmt.executeUpdate("INSERT INTO nutzer (Nutzer_Id, Vorname, Nachname, Nickname, Email, Erstellungszeitpunkt ) " + "VALUES (" + n.getId() + ",'"
-						+ n.getVorname() + "','" + n.getNachname() + "','" + n.getNickname() + "','" + "','" + n.getEmail() + "','" + format.format(n.getErstellungszeitpunkt()) + "')");
+						+ n.getVorname() + "','" + n.getNachname() + "','" + n.getNickname() + "','" + n.getEmail() + "','" + format.format(n.getErstellungszeitpunkt()) + "')");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

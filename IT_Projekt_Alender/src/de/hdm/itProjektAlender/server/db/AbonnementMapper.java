@@ -6,8 +6,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Vector;
 
-import de.hdm.itProjektAlender.shared.bo.Nutzer;
-import de.hdm.itProjektAlender.shared.bo.Pinnwand;
+import de.hdm.itProjektAlender.shared.bo.Abonnement;
+
 
 
 /**
@@ -38,7 +38,7 @@ public class AbonnementMapper{
 		    return abonnementMapper;
 		  }
 	  
-	  public void insert(Nutzer n, Pinnwand p){
+	  public void insert(Abonnement a){
 		  
 		  
 		    Connection con = DBConnection.connection();
@@ -49,8 +49,8 @@ public class AbonnementMapper{
 		      
 		        
 		        // Jetzt erst erfolgt die tatsächliche Einfügeoperation
-		        stmt.executeUpdate("INSERT INTO abonnement (Nutzer_Id, Pinnwand_Id)" + "VALUES (" + n.getId() + ",'"
-							+ p.getId() +"')"); 
+		        stmt.executeUpdate("INSERT INTO abonnement (Nutzer_Id, Pinnwand_Id)" + "VALUES (" + a.getNutzerId() + ",'"
+							+ a.getPinnwandId() +"')"); 
 		        
 		        
 		      
@@ -67,7 +67,7 @@ public class AbonnementMapper{
 	   * @param pe
 	   * @param pr
 	   */
-	  public void delete(Nutzer n, Pinnwand p){
+	  public void delete(Abonnement a){
 		  
 		    Connection con = DBConnection.connection();
 
@@ -78,7 +78,7 @@ public class AbonnementMapper{
 		        stmt = con.createStatement();
 
 		        // Jetzt erst erfolgt die tatsächliche Einfügeoperation
-		        stmt.executeUpdate("DELETE FROM `abonnement` WHERE `abonnement`.`Nutzer_Id` = "+n.getId()+" AND `abonnement`.`Pinnwand_Id` = "+p.getId()); 
+		        stmt.executeUpdate("DELETE FROM `abonnement` WHERE `abonnement`.`Nutzer_Id` = "+ a.getNutzerId()+" AND `abonnement`.`Pinnwand_Id` = "+a.getPinnwandId()); 
 		        
 		        
 		      
@@ -95,35 +95,31 @@ public class AbonnementMapper{
 	   * @param pe
 	   * @return Vector mit allen Pinnwanaenden welche der übergebene Nutzer n abonniert hat
 	   */
-	  public Vector<Pinnwand> findAbonniertePinnwaende(Nutzer n){
+	  public Vector<Abonnement> findAbonniertePinnwaende(int nutzerId){
 	        // DB-Verbindung holen
 	        Connection con = DBConnection.connection();
-	        Vector <Pinnwand> p = new Vector<>();
+	        Vector <Abonnement> a = new Vector<Abonnement>();
 
 	        try {
 	          // Leeres SQL-Statement (JDBC) anlegen
 	          Statement stmt = con.createStatement();
 
 	          // Statement ausfüllen und als Query an die DB schicken
-	          ResultSet rs = stmt.executeQuery("SELECT Pinnwand_Id FROM abonnement WHERE Nutzer_Id="+n.getId());
-	          Vector <Integer> PinnwandIDs= new Vector<>();
+	          ResultSet rs = stmt.executeQuery("SELECT Pinnwand_Id FROM abonnement WHERE Nutzer_Id="+nutzerId);
+	        
 	     
 	          
 	          while(rs.next()){
-	        	  PinnwandIDs.add(rs.getInt("Pinnwand_Id"));
-	          }
-	         //for-each jede id welche in Vektor PinnwandID  
-	          for (Integer id : PinnwandIDs) {
-	        	  p.add(PinnwandMapper.pinnwandMapper().findPinnwandById(id));
-			}
-	          //for(int id=0;id<PinnwandIDs.size();id++){}
-	        	 
+	        	  Abonnement ab = new Abonnement();
+	        	  ab.setPinnwandId(rs.getInt("Pinnwand_Id"));
+	        	  a.add(ab);
+	          }        	 
 	          
 	        }
 	        catch (SQLException e) {
 	          e.printStackTrace();
 	        }
-	        return p;
+	        return a;
 	  }
 	  
 	  /**
@@ -131,32 +127,31 @@ public class AbonnementMapper{
 	   * @param pr
 	   * @return Vector mit allen Personen die sich auf dem übergebenen Projektmarktplatz pr befinden
 	   */
-	  public Vector<Nutzer> findAbonnenten(Pinnwand p){
+	  public Vector<Abonnement> findAbonnenten(int pinnwandId){
 	        // DB-Verbindung holen
 	        Connection con = DBConnection.connection();
-	         Vector <Nutzer> n = new Vector<>();
+	         Vector <Abonnement> a = new Vector<Abonnement>();
 
 	        try {
 	          // Leeres SQL-Statement (JDBC) anlegen
 	          Statement stmt = con.createStatement();
 
 	          // Statement ausfüllen und als Query an die DB schicken
-	          ResultSet rs = stmt.executeQuery("SELECT * FROM abonnement WHERE Pinnwand_Id="+p.getId());
-	          Vector <Integer> NutzerIds = new Vector<>();
+	          ResultSet rs = stmt.executeQuery("SELECT * FROM abonnement WHERE Pinnwand_Id="+pinnwandId);
+	          Abonnement abo = new Abonnement();
 	     
 	          
 	          while(rs.next()){
-	        	 NutzerIds.add(rs.getInt("Nutzer_Id"));
+	        	 abo.setNutzerId(rs.getInt("Nutzer_Id"));
+	        	a.add(abo);
 	          }
 	          
-	          for (Integer id : NutzerIds) {
-	        	  n.add(NutzerMapper.nutzerMapper().findNutzerById(id));			
-	        }
+	          
 	        }
 	        catch (SQLException e) {
 	          e.printStackTrace();
 	        }
-	        return n;
+	        return a;
 	  }
 
 }

@@ -65,14 +65,14 @@ import de.hdm.itProjektAlender.shared.bo.*;
 		return null;
 	}
 	
-	public Vector <Beitrag> findBeitragByPinnwand(int kommentarId){
+	public Vector <Beitrag> findBeitragByPinnwand(int beitragId){
 		
 		Connection con = DBConnection.connection();
 		Vector <Beitrag> b = new Vector <Beitrag>();
 			try{
 				Statement stmt = con.createStatement();
 				ResultSet rs = stmt.executeQuery(
-						"SELECT Beitrag_Id, Pinnwand_Id FROM beitrag " + "WHERE Beitrag_Id=" + kommentarId);
+						"SELECT Beitrag_Id, Pinnwand_Id FROM beitrag " + "WHERE Beitrag_Id=" + beitragId);
 				
 				
 				while(rs.next()){
@@ -80,9 +80,9 @@ import de.hdm.itProjektAlender.shared.bo.*;
 					Beitrag be = new Beitrag();
 					be.setId(rs.getInt("Beitrag_Id"));
 					be.setPinnwand_Id(rs.getInt("Pinnwand_Id"));
-					be.setErstellungszeitpunkt(super.findTextbeitragById(kommentarId).getErstellungszeitpunkt());
-					be.setErsteller_Id(super.findTextbeitragById(kommentarId).getErsteller_Id());
-					be.setText(super.findTextbeitragById(kommentarId).getText());
+					be.setErstellungszeitpunkt(super.findTextbeitragById(beitragId).getErstellungszeitpunkt());
+					be.setErsteller_Id(super.findTextbeitragById(beitragId).getErsteller_Id());
+					be.setText(super.findTextbeitragById(beitragId).getText());
 					
 				b.add(be);
 				}

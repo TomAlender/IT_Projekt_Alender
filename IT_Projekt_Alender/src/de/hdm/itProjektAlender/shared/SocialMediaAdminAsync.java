@@ -12,4 +12,5 @@ public interface SocialMediaAdminAsync {
 
 	void getAllNutzer(AsyncCallback<Vector<Nutzer>> asyncCallback);
 
+	void createNutzer(String name, String nachname, String nickname, String email,AsyncCallback <Nutzer> asyncCallback);
 }

@@ -46,13 +46,25 @@ public class SocialMediaAdminImpl extends RemoteServiceServlet implements Social
 	  public Vector<Nutzer> getAllNutzer(){
 		  Vector<Nutzer> n = new Vector<Nutzer>();
 		  n= this.nMapper.findAllNutzer();
-		 
-		  
-		return n;
-		  
+ 
+		return n;		  
 	  }
-
-	
-	
-
+	  
+	  public Nutzer createNutzer(String name, String nachname, String nickname, String email) {
+	  Nutzer n = new Nutzer();
+	  n.setVorname(name);
+	  n.setNachname(nachname);
+	  n.setNickname(nickname);
+	  n.setEmail(email);
+	  
+	  n.setId(1);
+	  return nMapper.insert(n);   
+	  }
+	  
 }
+
+
+	
+	
+
+

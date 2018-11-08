@@ -10,8 +10,10 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.itProjektAlender.shared.LoginServiceAsync;
@@ -84,10 +86,12 @@ public class SocialMediaProject implements EntryPoint {
 								}
 							}
 							if(isUserRegistered==false){
-								/*
+								
+								Window.alert("Noch nicht registriert");
+								
 								RootPanel.get("Details").clear();
 								
-								RootPanel.get("Details").add(new RegistrierenForm());*/	
+								RootPanel.get("Details").add(new RegistrierenForm());
 								
 							}
 						}
@@ -165,6 +169,84 @@ public class SocialMediaProject implements EntryPoint {
 		});
 	    
 	    
+	}
+	
+	public class RegistrierenForm extends VerticalPanel {
+		
+		SocialMediaAdminAsync socialmedia = ClientsideSettings.getSocialMediaAdmin();
+		Nutzer n = null;
+		VerticalPanel homePanel = new VerticalPanel();
+		Label name = new Label("Name: ");
+		Label nickname = new Label("Nickname: ");
+		Label nachname = new Label("Nachname: ");
+		Label email = new Label("E-Mail: ");
+		TextBox tname = new TextBox();
+		TextBox tnachname = new TextBox();
+		TextBox tnickname = new TextBox();
+		TextBox temail = new TextBox();
+		
+		//private FlexTable ftForm = new FlexTable();
+		
+		Button btnAnmelden = new Button("Registrieren");
+		
+		public void onLoad(){
+			super.onLoad();
+			
+			Grid registerGrid = new Grid(5,2);
+			homePanel.add(registerGrid);
+			
+			registerGrid.setWidget(0,0,name);
+			registerGrid.setWidget(0, 1, tname);
+			registerGrid.setWidget(1,0,nachname);
+			registerGrid.setWidget(1, 1, tnachname);
+			registerGrid.setWidget(2,0,nickname);
+			registerGrid.setWidget(2, 1, tnickname);
+			registerGrid.setWidget(3,0,email);
+			registerGrid.setWidget(3, 1, temail);
+			registerGrid.setWidget(4,0,btnAnmelden);
+			btnAnmelden.addClickHandler(new AnmeldenClickhandler());
+			this.add(homePanel);
+		}
+		
+		private class AnmeldenClickhandler implements ClickHandler{
+
+			@Override
+			public void onClick(ClickEvent event) {
+				String vorname = tname.getText();
+				String nachname = tnachname.getText();
+				String nickname = tnickname.getText();
+				String email = temail.getText();
+				
+				socialmedia.createNutzer(vorname, nachname, nickname, email, new CreateNutzerCallback());;
+			}
+			
+		}
+		
+		class CreateNutzerCallback implements AsyncCallback<Nutzer> {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert("Das Das Registrieren ist Fehlgeschlagen!");
+			}
+
+			@Override
+			public void onSuccess(Nutzer nutzer) {
+				
+					// Das erfolgreiche Hinzufügen eines Kunden wird an den Kunden- und
+					// Kontenbaum propagiert.
+				Window.alert("Glückwunsch " + tnickname.getText()+"! Sie sind jetzt Mitglied bei Gesichtsbuch!");
+				loadSocialMediaAdmin(nutzer.getId());
+				
+			}
+
+			
+		}
+		
+		
+		
+		
+
+
 	}
     
 		

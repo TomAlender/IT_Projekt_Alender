@@ -13,5 +13,6 @@ public interface SocialMediaAdmin extends RemoteService {
 	public void init() throws IllegalArgumentException;
 	
 	public Vector<Nutzer> getAllNutzer() throws IllegalArgumentException;
-
+	
+	public Nutzer createNutzer(String name, String nachname, String nickname, String email) throws IllegalArgumentException;
 }
