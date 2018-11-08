@@ -112,10 +112,13 @@ public class AbonnementMapper{
 	          while(rs.next()){
 	        	  PinnwandIDs.add(rs.getInt("Pinnwand_Id"));
 	          }
-	          
+	         //for-each jede id welche in Vektor PinnwandID  
 	          for (Integer id : PinnwandIDs) {
 	        	  p.add(PinnwandMapper.pinnwandMapper().findPinnwandById(id));
 			}
+	          //for(int id=0;id<PinnwandIDs.size();id++){}
+	        	 
+	          
 	        }
 	        catch (SQLException e) {
 	          e.printStackTrace();

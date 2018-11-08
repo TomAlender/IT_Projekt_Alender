@@ -13,6 +13,8 @@ public class Nutzer extends BusinessObject{
 	private String nachname = null;
 	
 	private String nickname = null;
+	
+	private String email = null;
 
 	public Date getErstellungszeitpunkt() {
 		return erstellungszeitpunkt;
@@ -45,6 +47,15 @@ public class Nutzer extends BusinessObject{
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	
 
 }

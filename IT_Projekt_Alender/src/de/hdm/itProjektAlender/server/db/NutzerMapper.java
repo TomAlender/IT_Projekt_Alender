@@ -40,7 +40,7 @@ public class NutzerMapper {
 
 			// Statement ausfüllen und als Query an die DB schicken
 			ResultSet rs = stmt.executeQuery(
-					"SELECT Nutzer_Id, Vorname, Nachname, Nickname, Erstellungszeitpunkt FROM nutzer " + "WHERE Nutzer_Id=" + id + " ORDER BY Nachname");
+					"SELECT Nutzer_Id, Vorname, Nachname, Nickname, Email, Erstellungszeitpunkt FROM nutzer " + "WHERE Nutzer_Id=" + id + " ORDER BY Nachname");
 
 			/*
 			 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
@@ -53,6 +53,43 @@ public class NutzerMapper {
 				n.setVorname(rs.getString("Vorname"));
 				n.setNachname(rs.getString("Nachname"));
 				n.setNickname(rs.getString("Nickname"));
+				n.setEmail(rs.getString("Email"));
+				n.setErstellungszeitpunkt(rs.getDate("Erstellungszeitpunkt"));
+
+				return n;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		return null;
+	}
+	
+	public Nutzer findNutzerByEmail(String email) {
+		// DB-Verbindung holen
+		Connection con = DBConnection.connection();
+
+		try {
+			// Leeres SQL-Statement (JDBC) anlegen
+			Statement stmt = con.createStatement();
+
+			// Statement ausfüllen und als Query an die DB schicken
+			ResultSet rs = stmt.executeQuery(
+					"SELECT * FROM nutzer " + "WHERE Email=" + email + " ORDER BY Nachname");
+
+			/*
+			 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
+			 * werden. Prüfe, ob ein Ergebnis vorliegt.
+			 */
+			if (rs.next()) {
+				// Ergebnis-Tupel in Objekt umwandeln
+				Nutzer n = new Nutzer();
+				n.setId(rs.getInt("Nutzer_Id"));
+				n.setVorname(rs.getString("Vorname"));
+				n.setNachname(rs.getString("Nachname"));
+				n.setNickname(rs.getString("Nickname"));
+				n.setEmail(rs.getString("Email"));
 				n.setErstellungszeitpunkt(rs.getDate("Erstellungszeitpunkt"));
 
 				return n;
@@ -86,6 +123,7 @@ public class NutzerMapper {
 				n.setVorname(rs.getString("Vorname"));
 				n.setNachname(rs.getString("Nachname"));
 				n.setNickname(rs.getString("Nickname"));
+				n.setEmail(rs.getString("Email"));
 				n.setErstellungszeitpunkt(rs.getDate("Erstellungszeitpunkt"));
 				
 				
@@ -122,8 +160,8 @@ public class NutzerMapper {
 				stmt = con.createStatement();
 
 				// Jetzt erst erfolgt die tatsächliche Einfügeoperation
-				stmt.executeUpdate("INSERT INTO nutzer (Nutzer_Id, Vorname, Nachname, Nickname, Erstellungszeitpunkt ) " + "VALUES (" + n.getId() + ",'"
-						+ n.getVorname() + "','" + n.getNachname() + "','" + n.getNickname() + "','" + format.format(n.getErstellungszeitpunkt()) + "')");
+				stmt.executeUpdate("INSERT INTO nutzer (Nutzer_Id, Vorname, Nachname, Nickname, Email, Erstellungszeitpunkt ) " + "VALUES (" + n.getId() + ",'"
+						+ n.getVorname() + "','" + n.getNachname() + "','" + n.getNickname() + "','" + "','" + n.getEmail() + "','" + format.format(n.getErstellungszeitpunkt()) + "')");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
