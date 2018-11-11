@@ -1,4 +1,75 @@
 /** Add css rules here for your application. */
+#Navigator{
+	
+	line-height:30px;
+    background-color:#eeeeee;
+    height:600px;    
+    width:250px;
+    float:left;
+    padding:5px;
+    border-left: solid silver;
+    overflow: auto;
+    margin: 0px auto;
+}
+
+#Details{
+	
+	width:auto;
+    height:auto;
+    float:left;
+    padding:10px;
+    border-rigth: solid silver;
+    overflow: auto;
+    margin: 0px auto;
+}
+
+#Border{
+	
+	line-height:30px;
+    background-color:#eeeeee;
+    height: 400px;
+    min-height: 600px;
+    width:15px;
+    float:right;
+    padding:5px;
+    border-right: solid silver;
+    overflow: auto;
+    margin: 0px auto;
+}
+
+#Header{
+	
+	background-image: url("images/facebook-blau.png");
+	background-size: cover;
+    color:white;
+    text-align:center;
+    padding:2px;
+    height:120px;
+    width:auto;	
+    border-top:  solid silver;
+    border-left: solid silver;
+    border-right: solid silver;
+}
+#Footer {
+	background-image: url("images/facebook-blau.png");
+	background-size: cover;
+	border-bottom: solid silver;
+	border-left: solid silver;
+	border-right: solid silver;
+    color:white;
+    clear:both;
+    text-align:center;
+   	padding:5px;	
+}
+
+#Logo{
+	position: absolute;
+	left: 1;
+	top: 0;
+	display: block;
+	width: 100px;  
+	height: 50px;	
+}
 
 
 /** Example rules used by the template application (remove for your app) */
