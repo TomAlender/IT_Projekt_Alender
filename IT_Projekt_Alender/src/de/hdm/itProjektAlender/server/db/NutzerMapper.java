@@ -106,6 +106,45 @@ public class NutzerMapper {
 		return this.findNutzerById(n.getId()); 
 	}
 	
+	public Nutzer findByNickname(String nickname)
+	{
+		Connection con = DBConnection.connection();
+
+		try {
+			// Leeres SQL-Statement (JDBC) anlegen
+			Statement stmt = con.createStatement();
+
+			// Statement ausfüllen und als Query an die DB schicken
+			ResultSet rs = stmt.executeQuery(
+					"SELECT * FROM nutzer WHERE Nickname='" + nickname + "'");
+
+			
+			
+			/*
+			 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
+			 * werden. Prüfe, ob ein Ergebnis vorliegt.
+			 */
+			if (rs.next()) {
+				// Ergebnis-Tupel in Objekt umwandeln
+				Nutzer n = new Nutzer();
+				
+				n.setId(rs.getInt("Nutzer_Id"));
+				n.setVorname(rs.getString("Vorname"));
+				n.setNachname(rs.getString("Nachname"));
+				n.setNickname(rs.getString("Nickname"));
+				n.setEmail(rs.getString("Email"));
+				n.setErstellungszeitpunkt(rs.getDate("Erstellungszeitpunkt"));
+				
+				return n;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		return null;
+	}
+	
 	public Vector<Nutzer> findAllNutzer(){
 		Connection con = DBConnection.connection();
 		

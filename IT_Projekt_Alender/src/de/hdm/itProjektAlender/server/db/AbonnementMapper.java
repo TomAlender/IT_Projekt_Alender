@@ -38,28 +38,45 @@ public class AbonnementMapper{
 		    return abonnementMapper;
 		  }
 	  
-	  public void insert(Abonnement a){
+	  public Abonnement insert(Abonnement a){
 		  
 		  
 		    Connection con = DBConnection.connection();
 		    
 		    try {
+		    Statement stmt = con.createStatement();
+
+				/*
+				 * ZunÃ¤chst schauen wir nach, welches der momentan hÃ¶chste
+				 * PrimÃ¤rschlÃ¼sselwert ist.
+				 */
+				ResultSet rs = stmt.executeQuery("SELECT MAX(Id) AS maxid FROM abonnement");
+
+				// Wenn wir etwas zurÃ¼ckerhalten, kann dies nur einzeilig sein
+				if (rs.next()) {
+					/*
+					 * n erhÃ¤lt den bisher maximalen, nun um 1 inkrementierten
+					 * PrimÃ¤rschlÃ¼ssel.
+					 */
+					a.setId(rs.getInt("maxid") + 1);
+				
 		    	
-		      Statement stmt = con.createStatement();
+		      stmt = con.createStatement();
 		      
 		        
 		        // Jetzt erst erfolgt die tatsächliche Einfügeoperation
-		        stmt.executeUpdate("INSERT INTO abonnement (Nutzer_Id, Pinnwand_Id)" + "VALUES (" + a.getNutzerId() + ",'"
+		        stmt.executeUpdate("INSERT INTO abonnement (Id, Nutzer_Id, Pinnwand_Id)" + "VALUES ("+ a.getId() +"," + a.getNutzerId() + ",'"
 							+ a.getPinnwandId() +"')"); 
 		        
 		        
 		      
 		    }
+		 }
 		    catch (SQLException e) {
 		      e.printStackTrace();
 		    }
 
-		    return;
+		    return a;
 	  }
 	  
 	  /**
@@ -95,7 +112,7 @@ public class AbonnementMapper{
 	   * @param pe
 	   * @return Vector mit allen Pinnwanaenden welche der übergebene Nutzer n abonniert hat
 	   */
-	  public Vector<Abonnement> findAbonniertePinnwaende(int nutzerId){
+	  public Vector<Abonnement> findAbonnements(int nutzerId){
 	        // DB-Verbindung holen
 	        Connection con = DBConnection.connection();
 	        Vector <Abonnement> a = new Vector<Abonnement>();
@@ -105,12 +122,13 @@ public class AbonnementMapper{
 	          Statement stmt = con.createStatement();
 
 	          // Statement ausfüllen und als Query an die DB schicken
-	          ResultSet rs = stmt.executeQuery("SELECT Pinnwand_Id FROM abonnement WHERE Nutzer_Id="+nutzerId);
+	          ResultSet rs = stmt.executeQuery("SELECT * FROM abonnement WHERE Nutzer_Id="+nutzerId);
 	        
 	     
 	          
 	          while(rs.next()){
 	        	  Abonnement ab = new Abonnement();
+	        	  ab.setNutzerId(rs.getInt("Nutzer_Id"));
 	        	  ab.setPinnwandId(rs.getInt("Pinnwand_Id"));
 	        	  a.add(ab);
 	          }        	 

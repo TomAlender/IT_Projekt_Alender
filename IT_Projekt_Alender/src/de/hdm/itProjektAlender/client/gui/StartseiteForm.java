@@ -1,5 +1,6 @@
 package de.hdm.itProjektAlender.client.gui;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 

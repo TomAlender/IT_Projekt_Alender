@@ -6,6 +6,7 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
@@ -29,7 +30,7 @@ public class SocialMediaProject implements EntryPoint {
 	private SocialMediaAdminAsync socialMediaAdmin;
 	private LoginServiceAsync loginservice;
 	private LoginInfo loginInfo = null;
-	final Button Logout = new Button("Logout");
+	private Button logout = new Button("Logout");
 	private Button loginButton = new Button("Login");
 	private VerticalPanel loginPanel = new VerticalPanel();
 	private Label loginLabel1 = new Label("Herzlich Willkommen auf Gesichtsbuch");
@@ -60,7 +61,7 @@ public class SocialMediaProject implements EntryPoint {
 					/**
 					 * @return Vector mit allen Personen
 					 */
-					socialMediaAdmin.getAllNutzer(new AsyncCallback<Vector<Nutzer>>() {
+					socialMediaAdmin.checkNutzer(loginInfo.getEmailAddress(),new AsyncCallback <Nutzer>() {
 
 						@Override
 						public void onFailure(Throwable caught) {
@@ -68,24 +69,18 @@ public class SocialMediaProject implements EntryPoint {
 						}
 
 						@Override
-						public void onSuccess(Vector<Nutzer> result) {
-							boolean isUserRegistered = false;
-							for (Nutzer nutzer : result) {
-								/**
-								 * Überprüfung ob User bereits registriert ist
-								 */
-								if(nutzer.getEmail()==loginInfo.getEmailAddress()){
-									isUserRegistered = true;
-									/**
-									 * Falls User registriert ist wird der Projektmarktplatz geladen
-									 * @param id des jeweiligen Person-Objekts
-									 */
-							       loadSocialMediaAdmin(nutzer.getId());
-							       
-									break;
+						public void onSuccess(Nutzer result) {
+							
+							
+							if(result != null){	
+								
+								 Cookies.setCookie("id", ""+result.getId());
+								 Cookies.setCookie("email", result.getEmail());
+							     loadSocialMediaAdmin(result.getId());
+							      
 								}
-							}
-							if(isUserRegistered==false){
+							
+							else{
 								
 								Window.alert("Noch nicht registriert");
 								
@@ -142,9 +137,9 @@ public class SocialMediaProject implements EntryPoint {
 		//navigation.setIdentityMarketChoice(identityMarketChoice);
 		//RootPanel.get("Header").add(navigation.getIdentityMarketChoice());
 		//Integer test = IdentityMarketChoice.getNavigation(3).getSelectedIdentityId();
-	    RootPanel.get("Header").add(Logout);
+	    RootPanel.get("Header").add(logout);
 		RootPanel.get("Details").clear();
-	    //RootPanel.get("Navigator").add(navigation);
+	    RootPanel.get("Navigator").add(new NavigationForm());
 		RootPanel.get("Details").add(new StartseiteForm());
 		
 		
@@ -154,12 +149,12 @@ public class SocialMediaProject implements EntryPoint {
 //	    RootPanel.get("Header").add(topPanel);
 	    //Erstellen Projektmarktzplatz Button
 	    
-	    Logout.setWidth("150px");
-	    Logout.setStylePrimaryName("login-btn");
+	    logout.setWidth("150px");
+	    logout.setStylePrimaryName("login-btn");
 
 	    
 	   
-	    Logout.addClickHandler(new ClickHandler() {
+	    logout.addClickHandler(new ClickHandler() {
 			
 			@Override
 			public void onClick(ClickEvent event) {
@@ -217,7 +212,8 @@ public class SocialMediaProject implements EntryPoint {
 				String nickname = tnickname.getText();
 				String email = temail.getText();
 				
-				socialmedia.createNutzer(vorname, nachname, nickname, email, new CreateNutzerCallback());;
+				socialmedia.createNutzer(vorname, nachname, nickname, email, new CreateNutzerCallback());
+				
 			}
 			
 		}
@@ -226,16 +222,39 @@ public class SocialMediaProject implements EntryPoint {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				Window.alert("Das Das Registrieren ist Fehlgeschlagen!");
+				Window.alert("Das Registrieren ist Fehlgeschlagen! " + caught.getMessage());
 			}
 
 			@Override
 			public void onSuccess(Nutzer nutzer) {
+				Cookies.setCookie("id", ""+nutzer.getId());
+				Cookies.setCookie("email", nutzer.getEmail());
+				
+				socialmedia.createPinnwand(nutzer.getId(), new CreatePinnwandCallback());
 				
 					// Das erfolgreiche Hinzufügen eines Kunden wird an den Kunden- und
 					// Kontenbaum propagiert.
-				Window.alert("Glückwunsch " + tnickname.getText()+"! Sie sind jetzt Mitglied bei Gesichtsbuch!");
+				Window.alert("Glückwunsch " + tnickname.getText()+" ! Sie sind jetzt Mitglied bei Gesichtsbuch!");
 				loadSocialMediaAdmin(nutzer.getId());
+				
+				
+			}
+		
+			class CreatePinnwandCallback implements AsyncCallback<Pinnwand> {
+				
+				@Override
+				public void onFailure(Throwable caught) {
+					Window.alert("Das Registrieren ist Fehlgeschlagen!" +  caught.getMessage());
+					
+					
+					
+				}
+
+				@Override
+				public void onSuccess(Pinnwand result) {
+					// TODO Auto-generated method stub					
+				}
+				
 				
 			}
 
