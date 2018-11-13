@@ -15,6 +15,8 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.ProvidesKey;
+import com.google.gwt.view.client.SelectionChangeEvent;
+import com.google.gwt.view.client.SingleSelectionModel;
 
 import de.hdm.itProjektAlender.client.ClientsideSettings;
 import de.hdm.itProjektAlender.shared.SocialMediaAdminAsync;
@@ -34,7 +36,12 @@ public class NavigationForm extends VerticalPanel {
             return (item == null) ? null : item.getId();
          }
       };
+      final SingleSelectionModel<Nutzer> selectionModel = new SingleSelectionModel<Nutzer>();
       CellList<Nutzer> abo = new CellList<Nutzer>(new NutzerCell(), keyProvider);
+    
+      
+     
+      
 	public void onLoad(){
 		
 		super.onLoad();	
@@ -45,8 +52,21 @@ public class NavigationForm extends VerticalPanel {
 		aboButton.addClickHandler(new AbonniereClickhandler());
 		myPinnwandButton.addClickHandler(new myPinnwandClickhandler());
 		this.add(navPanel);
+		abo.setSelectionModel(selectionModel);
+		     
 		
-		socialMedia.listAbonnements(Integer.parseInt(Cookies.getCookie("id")), new ListAsyncCallback());	
+		socialMedia.listAbonnements(Integer.parseInt(Cookies.getCookie("id")), new ListAsyncCallback());
+		
+		 selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
+		      public void onSelectionChange(SelectionChangeEvent event) {
+		        Nutzer n = selectionModel.getSelectedObject();
+		        if (n != null) {
+		        	
+		        RootPanel.get("Details").clear();
+		        RootPanel.get("Details").add(new FremdePinnwand(n.getId()));
+		        }
+		      }
+		    });
 		
 		
 		
@@ -58,7 +78,7 @@ public class NavigationForm extends VerticalPanel {
 		public void onClick(ClickEvent event) {
 			RootPanel.get("Details").clear();
 						
-		    RootPanel.get("Details").add(new MeinePinnwandForm());
+		    RootPanel.get("Details").add(new MeinePinnwandForm(Integer.parseInt(Cookies.getCookie("id"))));
 			
 		}
 		

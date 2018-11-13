@@ -41,4 +41,8 @@ public interface SocialMediaAdmin extends RemoteService {
 	public Nutzer findNutzerById(int id)throws IllegalArgumentException;
 
 	public Boolean checkAbonnement(int id, String nickname) throws IllegalArgumentException;
+
+	public void deleteAbonnement(int nutzerId, String nickname) throws IllegalArgumentException;
+
+	public Vector<Abonnement> findAbonnmentsByNutzer(int nutzerId) throws IllegalArgumentException;
 }

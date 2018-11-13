@@ -12,6 +12,7 @@ import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -58,6 +59,7 @@ public class DialogBoxAbonnieren extends DialogBox {
 			
 			@Override
 			public void onClick(ClickEvent event) {
+				
 				hide();
 				
 			}
@@ -134,9 +136,12 @@ public class DialogBoxAbonnieren extends DialogBox {
 
 		@Override
 		public void onSuccess(Abonnement result) {
-			// TODO Auto-generated method stub
+			// TODO Auto-generated method stub			
 			Window.alert("Abonnement angelegt");
+			RootPanel.get("Navigator").clear();
+			RootPanel.get("Navigator").add(new NavigationForm());
 			hide();
+			
 		}
 		
 	}

@@ -71,6 +71,30 @@
 	height: 50px;	
 }
 
+.login-btn {
+ background: #ffffff;
+ background-image: -webkit-linear-gradient(top, #ffffff, #ffffff);
+ background-image: -moz-linear-gradient(top, #ffffff, #ffffff);
+ background-image: -ms-linear-gradient(top, #ffffff, #ffffff);
+ background-image: -o-linear-gradient(top, #ffffff, #ffffff);
+ background-image: linear-gradient(to bottom, #ffffff, #ffffff);
+ -webkit-border-radius: 10;
+ -moz-border-radius: 10;
+ border-radius: 1px;
+ font-family: Arial;
+ color: #000000;
+ font-size: 15px;
+ border: solid #e3e3e3 1px;
+ text-decoration: none;
+ padding: 5px 15px 5px 15px;
+ margin-left: 11px;
+ margin-right: 5px;
+ position: absolute;
+ top: 30px;
+ right: 25px;
+}
+
+
 
 /** Example rules used by the template application (remove for your app) */
 h1 {

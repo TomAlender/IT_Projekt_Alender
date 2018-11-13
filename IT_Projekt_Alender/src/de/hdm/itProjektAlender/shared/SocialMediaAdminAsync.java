@@ -40,6 +40,10 @@ public interface SocialMediaAdminAsync {
 	void findNutzerById(int id, AsyncCallback <Nutzer> asyncCallback);
 	
 	void checkAbonnement(int id, String nickname, AsyncCallback <Boolean> asyncCallback);
+	
+	void deleteAbonnement(int nutzerId, String nickname, AsyncCallback<Void> asyncCallback);
+	
+	void findAbonnmentsByNutzer(int nutzerId, AsyncCallback <Vector<Abonnement>> asyncCallback);
 
 	
 }

@@ -79,7 +79,7 @@ public class SocialMediaAdminImpl extends RemoteServiceServlet implements Social
 		  //System.out.println("1111: "+ id);
 		Vector<Nutzer> n = new Vector<Nutzer>();
 		Vector<Pinnwand> p = new Vector <Pinnwand>();
-		Vector <Abonnement> a = aMapper.findAbonnements(id);
+		Vector <Abonnement> a = this.findAbonnmentsByNutzer(id);
 		//System.out.println(a.elementAt(0).getPinnwandId());
 		for (Abonnement abonnement : a) {			
 			p.add(findPinnwandbyAbo(abonnement));			
@@ -132,6 +132,10 @@ public class SocialMediaAdminImpl extends RemoteServiceServlet implements Social
 		 return nu;
 	 }
 	 @Override
+	 public Vector <Abonnement>findAbonnmentsByNutzer(int nutzerId){
+		 return this.aMapper.findAbonnements(nutzerId);
+	 }
+	 @Override
 	  public Nutzer findNutzerbyNickname(String nickname){
 		  return this.nMapper.findByNickname(nickname);
 	  }
@@ -169,6 +173,19 @@ public class SocialMediaAdminImpl extends RemoteServiceServlet implements Social
 		}
 		 
 		 return true;
+	 }
+	 @Override 
+	 public void deleteAbonnement(int nutzerId, String nickname){
+		 Nutzer n = findNutzerbyNickname(nickname);
+		 Pinnwand p = findPinnwandByNutzer(n.getId());
+		 Abonnement a = new Abonnement();
+		  a.setNutzerId(nutzerId);
+		  a.setPinnwandId(p.getId());
+		  a.setId(1);
+		  this.aMapper.delete(a);
+		  
+		  return; 
+		 
 	 }
 	 
 }

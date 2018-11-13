@@ -37,6 +37,8 @@ public class SocialMediaProject implements EntryPoint {
 	private Label loginLabel = new Label("Bitte melde dich mit deinem Google Account Email an, um Zugang zu erhalten.");
 	private Anchor signInLink= new Anchor("Login");
 	private Anchor signOutLink = new Anchor("Logout");
+	Label user = new Label();
+	Label nickname = new Label();
 
 	@Override
 	public void onModuleLoad() {
@@ -126,11 +128,30 @@ public class SocialMediaProject implements EntryPoint {
 			}
 		});
 	}
+
 	
 	private void loadSocialMediaAdmin(int nutzerId){
 		//Erstellen des Logout-Links
 		signOutLink.setHref(loginInfo.getLogoutUrl());
+		SocialMediaAdminAsync socialMedia = ClientsideSettings.getSocialMediaAdmin();
 
+	
+		
+		socialMedia.findNutzerById(nutzerId, new AsyncCallback<Nutzer>() {
+			
+			@Override
+			public void onSuccess(Nutzer result) {
+				// TODO Auto-generated method stub
+			    user.setText("Name: "+ result.getVorname()+" "+ result.getNachname());
+				nickname.setText("Nickname: "+result.getNickname());
+			}
+			
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+				Window.alert("Fehler");
+			}
+		});
 		
 		//Navigation navigation = new Navigation();
 		//IdentityMarketChoice identityMarketChoice = new IdentityMarketChoice(personId, navigation);
@@ -138,11 +159,16 @@ public class SocialMediaProject implements EntryPoint {
 		//RootPanel.get("Header").add(navigation.getIdentityMarketChoice());
 		//Integer test = IdentityMarketChoice.getNavigation(3).getSelectedIdentityId();
 	    RootPanel.get("Header").add(logout);
+	    RootPanel.get("Header").add(user);
+	    RootPanel.get("Header").add(nickname);
+	    
 		RootPanel.get("Details").clear();
 	    RootPanel.get("Navigator").add(new NavigationForm());
-		RootPanel.get("Details").add(new StartseiteForm());
+		RootPanel.get("Details").add(new StartseiteForm());	
 		
-		
+	   
+	    
+	   
 	    
 	    //TopPanel für Logut
 //	    VerticalPanel topPanel = new VerticalPanel();
