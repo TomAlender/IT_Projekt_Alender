@@ -109,7 +109,7 @@ public class TextbeitragMapper {
 			 * Zunächst schauen wir nach, welches der momentan höchste
 			 * Primärschlüsselwert ist.
 			 */
-			ResultSet rs = stmt.executeQuery("SELECT MAX(Textbeitrag_Id) AS maxid " + "FROM textbeitragr ");
+			ResultSet rs = stmt.executeQuery("SELECT MAX(Textbeitrag_Id) AS maxid " + "FROM textbeitrag");
 
 			// Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
 			if (rs.next()) {
@@ -123,7 +123,7 @@ public class TextbeitragMapper {
 				stmt = con.createStatement();
 
 				// Jetzt erst erfolgt die tatsächliche Einfügeoperation
-				stmt.executeUpdate("INSERT INTO nutzer (Textbeitrag_Id, Ersteller_Id, Text, Erstellungszeitpunkt ) " + "VALUES (" + t.getId() + ",'"
+				stmt.executeUpdate("INSERT INTO textbeitrag (Textbeitrag_Id, Ersteller_Id, Text, Erstellungszeitpunkt) " + "VALUES (" + t.getId() + ",'"
 						+ t.getErsteller_Id() + "','" + t.getText() + "','" + format.format(t.getErstellungszeitpunkt()) + "')");
 			}
 		} catch (SQLException e) {

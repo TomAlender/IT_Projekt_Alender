@@ -6,8 +6,10 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 
 import de.hdm.itProjektAlender.shared.bo.Abonnement;
+import de.hdm.itProjektAlender.shared.bo.Beitrag;
 import de.hdm.itProjektAlender.shared.bo.Nutzer;
 import de.hdm.itProjektAlender.shared.bo.Pinnwand;
+import de.hdm.itProjektAlender.shared.bo.Textbeitrag;
 
 public interface SocialMediaAdminAsync {
 	
@@ -44,6 +46,8 @@ public interface SocialMediaAdminAsync {
 	void deleteAbonnement(int nutzerId, String nickname, AsyncCallback<Void> asyncCallback);
 	
 	void findAbonnmentsByNutzer(int nutzerId, AsyncCallback <Vector<Abonnement>> asyncCallback);
+	
+	void createBeitrag(int erstellerId, String text, int pinnwandId, AsyncCallback <Beitrag> asyncCallback);
 
 	
 }

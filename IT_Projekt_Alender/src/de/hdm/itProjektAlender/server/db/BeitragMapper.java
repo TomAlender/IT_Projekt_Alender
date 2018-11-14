@@ -113,13 +113,14 @@ import de.hdm.itProjektAlender.shared.bo.*;
 			 */
 			
 			 b.setId(super.insert(b));
+			 
 			
 
 				stmt = con.createStatement();
 
 				// Jetzt erst erfolgt die tatsächliche Einfügeoperation
-				stmt.executeUpdate("INSERT INTO beitrag (Beitrag_Id, Pinnwand_Id) " + "VALUES (" + b.getId() + ",'"
-						+ b.getPinnwand_Id() + "')");
+				stmt.executeUpdate("INSERT INTO beitrag (Beitrag_Id, Pinnwand_Id) " + "VALUES (" + b.getId() + ","
+						+ b.getPinnwand_Id() + ")");
 			}
 		 catch (SQLException e) {
 			e.printStackTrace();

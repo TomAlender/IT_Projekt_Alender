@@ -6,8 +6,10 @@ import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 import de.hdm.itProjektAlender.shared.bo.Abonnement;
+import de.hdm.itProjektAlender.shared.bo.Beitrag;
 import de.hdm.itProjektAlender.shared.bo.Nutzer;
 import de.hdm.itProjektAlender.shared.bo.Pinnwand;
+import de.hdm.itProjektAlender.shared.bo.Textbeitrag;
 
 @RemoteServiceRelativePath("socialmediaadmin")
 public interface SocialMediaAdmin extends RemoteService {
@@ -45,4 +47,6 @@ public interface SocialMediaAdmin extends RemoteService {
 	public void deleteAbonnement(int nutzerId, String nickname) throws IllegalArgumentException;
 
 	public Vector<Abonnement> findAbonnmentsByNutzer(int nutzerId) throws IllegalArgumentException;
+
+	public Beitrag createBeitrag(int erstellerId, String text, int pinnwandId) throws IllegalArgumentException;
 }

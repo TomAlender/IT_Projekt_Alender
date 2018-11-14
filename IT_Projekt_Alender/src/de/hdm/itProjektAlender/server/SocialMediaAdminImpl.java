@@ -43,6 +43,8 @@ public class SocialMediaAdminImpl extends RemoteServiceServlet implements Social
 	      this.pMapper = PinnwandMapper.pinnwandMapper();
 	      this.tMapper = TextbeitragMapper.textbeitragMapper();
 	      
+	    		  
+	     
 	      
 	    }
 	  @Override
@@ -187,6 +189,18 @@ public class SocialMediaAdminImpl extends RemoteServiceServlet implements Social
 		  return; 
 		 
 	 }
+	
+	 @Override
+	  public Beitrag createBeitrag(int erstellerId, String text, int pinnwandId){
+		  Beitrag b = new Beitrag();
+		  b.setErsteller_Id(erstellerId);
+		  b.setText(text);
+		  b.setPinnwand_Id(pinnwandId);
+		  
+		 
+		 return bMapper.insert(b);
+	  }
+	 
 	 
 }
 	  
