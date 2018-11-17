@@ -91,7 +91,14 @@ public class SocialMediaAdminImpl extends RemoteServiceServlet implements Social
 		}
 	
 		return n;
-	  }
+	  }	  
+	  
+	  @Override
+	  public Vector<Beitrag> findBeitraegeByPinnwand(int id){
+		  
+	   return this.bMapper.findBeitragByPinnwand(id);
+	 }
+	  
 	  @Override
 	  public Nutzer findNutzerByAbo(Abonnement a){
 		  

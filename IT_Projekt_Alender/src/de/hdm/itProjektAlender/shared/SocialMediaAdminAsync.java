@@ -48,6 +48,8 @@ public interface SocialMediaAdminAsync {
 	void findAbonnmentsByNutzer(int nutzerId, AsyncCallback <Vector<Abonnement>> asyncCallback);
 	
 	void createBeitrag(int erstellerId, String text, int pinnwandId, AsyncCallback <Beitrag> asyncCallback);
+	
+	void findBeitraegeByPinnwand(int id, AsyncCallback <Vector<Beitrag>> asyncCallback);
 
 	
 }

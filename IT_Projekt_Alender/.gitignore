@@ -53,3 +53,8 @@ war/WEB-INF/classes/
 /.settings
 /.gwt
 /test-classes/
+*.prefs
+*.png
+*.gif
+*.rpc
+*.nocache.js

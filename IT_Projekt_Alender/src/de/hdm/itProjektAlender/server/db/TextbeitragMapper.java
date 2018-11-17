@@ -16,7 +16,7 @@ public class TextbeitragMapper {
 	
 	private static TextbeitragMapper textbeitragMapper = null;
 	
-	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd k:mm:s");
+	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:s");
 	
 	protected TextbeitragMapper(){
 		
@@ -40,7 +40,7 @@ public class TextbeitragMapper {
 
 			// Statement ausfüllen und als Query an die DB schicken
 			ResultSet rs = stmt.executeQuery(
-					"SELECT Textbeitrag_Id, Text, Ersteller_Id, Erstellungszeitpunkt FROM textbeitrag " + "WHERE Textbeitrag_Id=" + id);
+					"SELECT * FROM textbeitrag " + "WHERE Textbeitrag_Id=" + id);
 
 			/*
 			 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
@@ -49,7 +49,7 @@ public class TextbeitragMapper {
 			if (rs.next()) {
 				// Ergebnis-Tupel in Objekt umwandeln
 				Textbeitrag t = new Textbeitrag();
-				t.setId(rs.getInt("Nutzer_Id"));
+				t.setId(rs.getInt("Textbeitrag_Id"));
 				t.setText(rs.getString("Text"));
 				t.setErstellungszeitpunkt(rs.getDate("Erstellungszeitpunkt"));
 				t.setErsteller_Id(rs.getInt("Ersteller_Id"));
