@@ -1,5 +1,6 @@
 package de.hdm.itProjektAlender.shared.bo;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Textbeitrag extends BusinessObject {
@@ -8,7 +9,10 @@ public class Textbeitrag extends BusinessObject {
 
 	private Date erstellungszeitpunkt = new Date();
 	
+	
+	
 	private String text = null;
+	
 	
 	private Integer ersteller_Id = 0;
 

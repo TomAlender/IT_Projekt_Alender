@@ -23,7 +23,7 @@ import de.hdm.itProjektAlender.shared.bo.*;
 public class DialogBoxAbonnieren extends DialogBox {
 	
 	MultiWordSuggestOracle oracle = new MultiWordSuggestOracle();
-	FlexTable ftAbonnieren = new FlexTable();
+	
 	Nutzer n = new Nutzer();
 	
 	SocialMediaAdminAsync socialMedia = ClientsideSettings.getSocialMediaAdmin();

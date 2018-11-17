@@ -50,5 +50,7 @@ public interface SocialMediaAdmin extends RemoteService {
 
 	public Beitrag createBeitrag(int erstellerId, String text, int pinnwandId) throws IllegalArgumentException;
 
-	public Vector<Beitrag> findBeitraegeByPinnwand(int id) throws IllegalArgumentException;;
+	public Vector<Beitrag> findBeitraegeByPinnwand(int id) throws IllegalArgumentException;
+
+	public Beitrag findBeitragById(int id) throws IllegalArgumentException;
 }

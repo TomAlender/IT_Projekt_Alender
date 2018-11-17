@@ -169,6 +169,10 @@ public class SocialMediaAdminImpl extends RemoteServiceServlet implements Social
 		 return this.nMapper.findNutzerById(id);
 	 }
 	 @Override
+	 public Beitrag findBeitragById(int id){
+		 return this.bMapper.findBeitragById(id);
+	 }
+	 @Override
 	 public Boolean checkAbonnement(int id, String nickname){
 		 Vector <Nutzer> n = this.listAbonnements(id);
 		 

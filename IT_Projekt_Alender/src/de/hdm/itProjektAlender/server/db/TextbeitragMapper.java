@@ -51,7 +51,7 @@ public class TextbeitragMapper {
 				Textbeitrag t = new Textbeitrag();
 				t.setId(rs.getInt("Textbeitrag_Id"));
 				t.setText(rs.getString("Text"));
-				t.setErstellungszeitpunkt(rs.getDate("Erstellungszeitpunkt"));
+				t.setErstellungszeitpunkt(rs.getTimestamp("Erstellungszeitpunkt"));
 				t.setErsteller_Id(rs.getInt("Ersteller_Id"));
 				
 
@@ -80,7 +80,7 @@ public class TextbeitragMapper {
 					Textbeitrag tb = new Textbeitrag();
 					tb.setId(rs.getInt("Nutzer_Id"));
 					tb.setText(rs.getString("Text"));
-					tb.setErstellungszeitpunkt(rs.getDate("Erstellungszeitpunkt"));
+					tb.setErstellungszeitpunkt(rs.getTimestamp("Erstellungszeitpunkt"));
 					tb.setErsteller_Id(rs.getInt("Ersteller_Id"));
 					
 				t.add(tb);
