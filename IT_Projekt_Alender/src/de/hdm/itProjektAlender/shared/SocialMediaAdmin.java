@@ -53,4 +53,8 @@ public interface SocialMediaAdmin extends RemoteService {
 	public Vector<Beitrag> findBeitraegeByPinnwand(int id) throws IllegalArgumentException;
 
 	public Beitrag findBeitragById(int id) throws IllegalArgumentException;
+
+	public void editBeitrag(Beitrag b) throws IllegalArgumentException;
+
+	public void deleteBeitrag(Beitrag b) throws IllegalArgumentException;
 }

@@ -200,9 +200,13 @@ public class SocialMediaAdminImpl extends RemoteServiceServlet implements Social
 		  return; 
 		 
 	 }
+	 @Override
+	 public void editBeitrag(Beitrag b){
+		 this.bMapper.update(b);
+	 }
 	
 	 @Override
-	  public Beitrag createBeitrag(int erstellerId, String text, int pinnwandId){
+	 public Beitrag createBeitrag(int erstellerId, String text, int pinnwandId){
 		  Beitrag b = new Beitrag();
 		  b.setErsteller_Id(erstellerId);
 		  b.setText(text);
@@ -211,6 +215,14 @@ public class SocialMediaAdminImpl extends RemoteServiceServlet implements Social
 		 
 		 return bMapper.insert(b);
 	  }
+	 
+	 @Override
+	 public void deleteBeitrag(Beitrag b){
+		 this.bMapper.delete(b);
+	 }
+	
+	 
+	 
 	 
 	 
 }

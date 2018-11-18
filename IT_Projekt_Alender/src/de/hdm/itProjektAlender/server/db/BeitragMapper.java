@@ -168,7 +168,7 @@ import de.hdm.itProjektAlender.shared.bo.*;
 		try {
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("DELETE FROM beitrag " + "WHERE Beitrag_Id=" + b.getId());
+			stmt.executeUpdate("DELETE FROM beitrag " + "WHERE Beitrag_Id= " + b.getId());
 			super.delete(b);
 		} catch (SQLException e) {
 			e.printStackTrace();

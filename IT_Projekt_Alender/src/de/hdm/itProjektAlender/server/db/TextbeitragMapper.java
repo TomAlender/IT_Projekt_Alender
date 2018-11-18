@@ -148,7 +148,7 @@ public class TextbeitragMapper {
 			id = t.getId();
 			Statement stmt = con.createStatement();
 			
-			stmt.executeUpdate("UPDATE textbeitrag " + "SET Text=\"" + t.getText() +  "WHERE id=" + t.getId());
+			stmt.executeUpdate("UPDATE textbeitrag SET Text= '" + t.getText() +  "' WHERE Textbeitrag_Id=" + t.getId());
 
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -52,6 +52,10 @@ public interface SocialMediaAdminAsync {
 	void findBeitraegeByPinnwand(int id, AsyncCallback <Vector<Beitrag>> asyncCallback);
 	
 	void findBeitragById(int id, AsyncCallback<Beitrag> asyncCallback);
+	
+	void editBeitrag(Beitrag b, AsyncCallback<Void> asyncCallback);
+	
+	void deleteBeitrag(Beitrag b, AsyncCallback<Void> asyncCallback);
 
 	
 }
