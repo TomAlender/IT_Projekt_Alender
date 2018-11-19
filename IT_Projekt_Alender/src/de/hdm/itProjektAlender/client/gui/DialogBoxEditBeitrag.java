@@ -6,6 +6,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -21,10 +22,15 @@ public class DialogBoxEditBeitrag extends DialogBox{
 	
 	SocialMediaAdminAsync socialMedia = ClientsideSettings.getSocialMediaAdmin();
 	Beitrag b = new Beitrag();
+	
 	VerticalPanel eins = new VerticalPanel();
+	
+
+	
+	FlexTable ftAnordnung = new FlexTable();
 	TextBox oldText = new TextBox();
-	Button btnAendern = new Button("�ndern");
-	Button btnLoeschen = new Button("L�schen");
+	Button btnAendern = new Button("Ändern");
+	Button btnLoeschen = new Button("Löschen");
 	Button btnAbbrechen = new Button("Abbrechen");
 	HorizontalPanel btnPanel = new HorizontalPanel();
 		
@@ -52,11 +58,13 @@ public class DialogBoxEditBeitrag extends DialogBox{
 		btnAendern.addClickHandler(new AendernClickHandler());
 		btnLoeschen.addClickHandler(new LoeschenClickHandler());
 		
-		eins.add(oldText);
-		eins.add(btnAendern);
-		eins.add(btnLoeschen);
-		eins.add(btnAbbrechen);
+		btnPanel.add(btnAendern);
+		btnPanel.add(btnLoeschen);
+		btnPanel.add(btnAbbrechen);
 		
+		eins.add(oldText);
+		eins.add(btnPanel);
+	
 		
 		this.add(eins);
 		//this.add(btnPanel);

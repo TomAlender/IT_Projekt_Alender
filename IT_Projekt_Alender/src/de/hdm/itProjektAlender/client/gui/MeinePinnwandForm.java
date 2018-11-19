@@ -9,6 +9,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Grid;
@@ -43,7 +44,7 @@ public class MeinePinnwandForm extends VerticalPanel {
 	//DateTimeFormat dateTimeFormat = DateTimeFormat.getFormat("YYYY/MM/DD");
 	
 	MeinePinnwandForm(final int nutzerId){
-				
+			
 		text.setVisibleLines(2);				
 		socialMedia.findNutzerById(nutzerId, new AsyncCallback<Nutzer>() {
 						
@@ -82,15 +83,16 @@ public class MeinePinnwandForm extends VerticalPanel {
 
 							@Override
 							public void onSuccess(Vector<Beitrag> result) {
-								// TODO Auto-generated method stub					
+								// TODO Auto-generated method stub			
+								int likeanzahl = 4;
 								for (Beitrag beitrag : result) {
 									int numRows = flexTable.getRowCount();
 //									beitragText.setText(beitrag.getText());
 									Label testlabel = new Label();
 									Label datum = new Label();
-									Button likebtn = new Button("Like");
-									Button kommbtn = new Button("Kommentare");
-									Button edit = new Button("Edit");
+									Anchor likebtn = new Anchor(likeanzahl+" Like");
+									Anchor kommbtn = new Anchor("Kommentare");
+									Anchor edit = new Anchor("Edit");
 									testlabel.setText(beitrag.getText());	
 									final int test = beitrag.getId();
 									
