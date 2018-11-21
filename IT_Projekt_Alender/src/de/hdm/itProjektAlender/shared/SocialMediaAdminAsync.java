@@ -7,6 +7,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.hdm.itProjektAlender.shared.bo.Abonnement;
 import de.hdm.itProjektAlender.shared.bo.Beitrag;
+import de.hdm.itProjektAlender.shared.bo.Like;
 import de.hdm.itProjektAlender.shared.bo.Nutzer;
 import de.hdm.itProjektAlender.shared.bo.Pinnwand;
 import de.hdm.itProjektAlender.shared.bo.Textbeitrag;
@@ -56,6 +57,18 @@ public interface SocialMediaAdminAsync {
 	void editBeitrag(Beitrag b, AsyncCallback<Void> asyncCallback);
 	
 	void deleteBeitrag(Beitrag b, AsyncCallback<Void> asyncCallback);
+	
+	void findLikesByBeitrag(int beitragId, AsyncCallback<Vector<Like>> asyncCallback);
+
+	void findNutzerByLikes(int beitragId, AsyncCallback<Vector<Nutzer>> asyncCallback);
+
+	void checkLike(int nutzerId, int beitragId, AsyncCallback<Boolean> asyncCallback);
+	
+	void createLike(int erstellerId, int beitragId, AsyncCallback<Like> asyncCallback);
+	
+	void unlike(int nutzerId, int beitragId , AsyncCallback<Void> asyncCallback);
+	
+	void findLikeById(int id,  AsyncCallback<Like> asyncCallback);
 
 	
 }

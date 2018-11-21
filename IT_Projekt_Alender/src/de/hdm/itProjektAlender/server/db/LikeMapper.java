@@ -78,7 +78,7 @@ private static LikeMapper likeMapper = null;
 					
 					// Statement ausfüllen und als Query an die DB schicken
 					ResultSet rs = stmt.executeQuery(
-							"SELECT Like_Id, Ersteller_Id, Beitrag_Id, Erstellungszeitpunkt FROM like1 " + "WHERE Like_Id=" + nutzerId);
+							"SELECT *  FROM like1 " + "WHERE Ersteller_Id=" + nutzerId);
 
 					/*
 					 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
@@ -87,10 +87,10 @@ private static LikeMapper likeMapper = null;
 					while (rs.next()) {
 						// Ergebnis-Tupel in Objekt umwandeln
 						Like li = new Like();
-						li.setId(rs.getInt("Pinnwand_Id"));
+						li.setId(rs.getInt("Like_Id"));
 						li.setErstellerId(rs.getInt("Ersteller_Id"));
 						li.setBeitrag_Id(rs.getInt("Beitrag_Id"));
-						li.setErstellungszeitpunkt(rs.getDate("Erstellungszeitpunkt"));
+						li.setErstellungszeitpunkt(rs.getTimestamp("Erstellungszeitpunkt"));
 						
 						l.add(li);
 					}
@@ -114,7 +114,7 @@ private static LikeMapper likeMapper = null;
 
 					// Statement ausfüllen und als Query an die DB schicken
 					ResultSet rs = stmt.executeQuery(
-							"SELECT Like_Id, Ersteller_Id, Beitrag_Id, Erstellungszeitpunkt FROM like1 " + "WHERE Like_Id=" + beitragId);
+							"SELECT Like_Id, Ersteller_Id, Beitrag_Id, Erstellungszeitpunkt FROM like1 " + "WHERE Beitrag_Id=" + beitragId);
 
 					/*
 					 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
@@ -123,7 +123,7 @@ private static LikeMapper likeMapper = null;
 					while (rs.next()) {
 						// Ergebnis-Tupel in Objekt umwandeln
 						Like li = new Like();
-						li.setId(rs.getInt("Pinnwand_Id"));
+						li.setId(rs.getInt("Like_Id"));
 						li.setErstellerId(rs.getInt("Ersteller_Id"));
 						li.setBeitrag_Id(rs.getInt("Beitrag_Id"));
 						li.setErstellungszeitpunkt(rs.getDate("Erstellungszeitpunkt"));
@@ -149,7 +149,7 @@ private static LikeMapper likeMapper = null;
 			 * Zunächst schauen wir nach, welches der momentan höchste
 			 * Primärschlüsselwert ist.
 			 */
-			ResultSet rs = stmt.executeQuery("SELECT MAX(Pinnwand_Id) AS maxid " + "FROM pinnwand ");
+			ResultSet rs = stmt.executeQuery("SELECT MAX(Like_Id) AS maxid " + "FROM like1 ");
 
 			// Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
 			if (rs.next()) {

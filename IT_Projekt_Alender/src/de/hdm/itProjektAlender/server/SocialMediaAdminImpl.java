@@ -161,6 +161,7 @@ public class SocialMediaAdminImpl extends RemoteServiceServlet implements Social
 		  a.setNutzerId(nutzerId);
 		  a.setPinnwandId(p.getId());
 		  a.setId(1);
+		  
 		
 		  return aMapper.insert(a);
 	 }
@@ -186,6 +187,70 @@ public class SocialMediaAdminImpl extends RemoteServiceServlet implements Social
 		}
 		 
 		 return true;
+	 }
+	 
+	 @Override
+	 public boolean checkLike (int nutzerId, int beitragId){
+		 
+		boolean like = false;
+		
+		Vector<Like> likeVector = findLikesByBeitrag(beitragId);
+		
+		for (Like like2 : likeVector) {
+			if(like2.getErstellerId() == nutzerId){
+				like = true;
+				break;
+			}
+		}
+		 
+		return like;
+		 		 
+	 }
+	 @Override
+	 public Like createLike(int erstellerId, int beitragId){
+		 Like l = new Like();
+		 l.setBeitrag_Id(beitragId);
+		 l.setErstellerId(erstellerId);
+		 l.setId(1);
+		 return this.lMapper.insert(l);
+	 }
+	 @Override
+	 public void unlike(int nutzerId, int beitragId){
+		 Vector<Like> likeVector = findLikesByBeitrag(beitragId);
+		 Like l = new Like();
+		 for (Like like2 : likeVector) {
+				if(like2.getErstellerId() == nutzerId){
+					l = findLikeById(l.getId());
+					break;
+				}
+			}
+		 this.lMapper.delete(l);
+	 }
+	 
+	 @Override
+	 public Like findLikeById(int id){
+		 return this.lMapper.findLikeById(id);
+	 }
+	 @Override
+	 public Vector<Nutzer> findNutzerByLikes(int beitragId){
+		 
+		Vector<Like> vectorLike = findLikesByBeitrag(beitragId);
+		
+		Vector<Nutzer> nutzerVector = new Vector<Nutzer>();
+		
+		for(Like like : vectorLike){
+			nutzerVector.add(findNutzerById(like.getErstellerId()));
+		}
+	 
+		return nutzerVector;
+		 
+	 }
+	 
+	 @Override
+	 public Vector<Like> findLikesByBeitrag(int beitragId){
+		 
+		return this.lMapper.findLikeByBeitrag(beitragId);		
+		
 	 }
 	 @Override 
 	 public void deleteAbonnement(int nutzerId, String nickname){

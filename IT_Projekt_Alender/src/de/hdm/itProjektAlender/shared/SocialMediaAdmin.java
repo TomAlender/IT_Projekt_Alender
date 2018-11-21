@@ -7,6 +7,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 import de.hdm.itProjektAlender.shared.bo.Abonnement;
 import de.hdm.itProjektAlender.shared.bo.Beitrag;
+import de.hdm.itProjektAlender.shared.bo.Like;
 import de.hdm.itProjektAlender.shared.bo.Nutzer;
 import de.hdm.itProjektAlender.shared.bo.Pinnwand;
 import de.hdm.itProjektAlender.shared.bo.Textbeitrag;
@@ -57,4 +58,16 @@ public interface SocialMediaAdmin extends RemoteService {
 	public void editBeitrag(Beitrag b) throws IllegalArgumentException;
 
 	public void deleteBeitrag(Beitrag b) throws IllegalArgumentException;
+
+	public Vector<Like> findLikesByBeitrag(int beitragId) throws IllegalArgumentException;
+
+	Vector<Nutzer> findNutzerByLikes(int beitragId)throws IllegalArgumentException;
+
+	public boolean checkLike(int nutzerId, int beitragId) throws IllegalArgumentException;
+
+	public Like createLike(int erstellerId, int beitragId) throws IllegalArgumentException;
+
+	public void unlike(int nutzerId, int beitragId) throws IllegalArgumentException;
+
+	public Like findLikeById(int id)throws IllegalArgumentException;
 }
