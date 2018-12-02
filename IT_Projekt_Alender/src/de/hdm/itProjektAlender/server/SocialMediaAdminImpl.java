@@ -5,6 +5,7 @@ import java.util.Vector;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
+import de.hdm.itProjektAlender.client.LikeBeitragWrapper;
 import de.hdm.itProjektAlender.server.db.*;
 
 import de.hdm.itProjektAlender.shared.SocialMediaAdmin;
@@ -152,6 +153,9 @@ public class SocialMediaAdminImpl extends RemoteServiceServlet implements Social
 	 public Pinnwand findPinnwandByNutzer(int id){
 		 return this.pMapper.findPinnwandByNutzer(id);
 	 }
+	 
+	
+	 
 	 @Override
 	 public Abonnement createAbonnement(int nutzerId, String nickname){
 		Nutzer n = findNutzerbyNickname(nickname);		
@@ -198,8 +202,9 @@ public class SocialMediaAdminImpl extends RemoteServiceServlet implements Social
 		
 		for (Like like2 : likeVector) {
 			if(like2.getErstellerId() == nutzerId){
-				like = true;
+				like= true;
 				break;
+				
 			}
 		}
 		 
@@ -209,10 +214,15 @@ public class SocialMediaAdminImpl extends RemoteServiceServlet implements Social
 	 @Override
 	 public Like createLike(int erstellerId, int beitragId){
 		 Like l = new Like();
+	 
+		 if (checkLike(erstellerId, beitragId) == false){
+		
 		 l.setBeitrag_Id(beitragId);
 		 l.setErstellerId(erstellerId);
 		 l.setId(1);
+		 }
 		 return this.lMapper.insert(l);
+		 
 	 }
 	 @Override
 	 public void unlike(int nutzerId, int beitragId){
@@ -220,7 +230,8 @@ public class SocialMediaAdminImpl extends RemoteServiceServlet implements Social
 		 Like l = new Like();
 		 for (Like like2 : likeVector) {
 				if(like2.getErstellerId() == nutzerId){
-					l = findLikeById(l.getId());
+					System.out.println(nutzerId+"--"+like2.getErstellerId());
+					l = findLikeById(like2.getId());
 					break;
 				}
 			}
@@ -271,8 +282,8 @@ public class SocialMediaAdminImpl extends RemoteServiceServlet implements Social
 	 }
 	
 	 @Override
-	 public Beitrag createBeitrag(int erstellerId, String text, int pinnwandId){
-		  Beitrag b = new Beitrag();
+	 public Beitrag createBeitrag(int erstellerId, int pinnwandId, String text){
+		  Beitrag b = new Beitrag();		  
 		  b.setErsteller_Id(erstellerId);
 		  b.setText(text);
 		  b.setPinnwand_Id(pinnwandId);
@@ -285,11 +296,30 @@ public class SocialMediaAdminImpl extends RemoteServiceServlet implements Social
 	 public void deleteBeitrag(Beitrag b){
 		 this.bMapper.delete(b);
 	 }
-	
-	 
-	 
-	 
-	 
+	 @Override
+	 public Vector <Beitrag> findBeitraegeaufEigenerPinnwand(int nutzerId){
+		 Nutzer n = findNutzerById(nutzerId);
+		 Pinnwand p = findPinnwandByNutzer(nutzerId);
+		 Vector <Beitrag> b = findBeitraegeByPinnwand(p.getId());
+		 return b;
+	 }
+	 @Override
+	 public Vector<LikeBeitragWrapper> findBeitragAufEigenerPinnwandWrapper(int nutzerId){
+		
+		 Vector<LikeBeitragWrapper> vectorWrapper = new Vector<LikeBeitragWrapper>();
+		 
+		 Vector<Beitrag> beitrag = findBeitraegeaufEigenerPinnwand(nutzerId);
+		 Vector<Nutzer> nutzerLikes = new Vector<Nutzer>();
+		 int anzahl = 0;
+		 
+		 for (Beitrag beitrag2 : beitrag) {			 
+			nutzerLikes = findNutzerByLikes(beitrag2.getId());
+			anzahl = nutzerLikes.size();
+			vectorWrapper.add(new LikeBeitragWrapper(checkLike(nutzerId, beitrag2.getId()), beitrag2, anzahl));
+		 }
+		 return vectorWrapper;
+	 }
+
 }
 	  
 

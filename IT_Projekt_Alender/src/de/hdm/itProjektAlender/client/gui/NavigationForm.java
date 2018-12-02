@@ -13,6 +13,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.ProvidesKey;
 import com.google.gwt.view.client.SelectionChangeEvent;
@@ -25,6 +26,7 @@ import de.hdm.itProjektAlender.shared.bo.Nutzer;
 public class NavigationForm extends VerticalPanel {
 	
 	VerticalPanel navPanel = new VerticalPanel();
+	ScrollPanel scroll = new ScrollPanel();
 	Button aboButton = new Button("Abonnieren");	
 	SocialMediaAdminAsync socialMedia = ClientsideSettings.getSocialMediaAdmin();
 	Button myPinnwandButton = new Button("Meine Pinnwand anzeigen");
@@ -45,12 +47,14 @@ public class NavigationForm extends VerticalPanel {
 	public void onLoad(){
 		
 		super.onLoad();	
-		
+		scroll.setSize("auto", "auto");
 		navPanel.add(aboButton);
 		navPanel.add(myPinnwandButton);
-		navPanel.add(abo);
+		scroll.add(abo);
+		navPanel.add(scroll);
 		aboButton.addClickHandler(new AbonniereClickhandler());
 		myPinnwandButton.addClickHandler(new myPinnwandClickhandler());
+		
 		this.add(navPanel);
 		abo.setSelectionModel(selectionModel);
 		     

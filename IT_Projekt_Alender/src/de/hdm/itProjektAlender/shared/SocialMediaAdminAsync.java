@@ -4,7 +4,7 @@ import java.util.Vector;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-
+import de.hdm.itProjektAlender.client.LikeBeitragWrapper;
 import de.hdm.itProjektAlender.shared.bo.Abonnement;
 import de.hdm.itProjektAlender.shared.bo.Beitrag;
 import de.hdm.itProjektAlender.shared.bo.Like;
@@ -48,7 +48,7 @@ public interface SocialMediaAdminAsync {
 	
 	void findAbonnmentsByNutzer(int nutzerId, AsyncCallback <Vector<Abonnement>> asyncCallback);
 	
-	void createBeitrag(int erstellerId, String text, int pinnwandId, AsyncCallback <Beitrag> asyncCallback);
+	void createBeitrag(int erstellerId, int pinnwandId, String text, AsyncCallback <Beitrag> asyncCallback);
 	
 	void findBeitraegeByPinnwand(int id, AsyncCallback <Vector<Beitrag>> asyncCallback);
 	
@@ -69,6 +69,10 @@ public interface SocialMediaAdminAsync {
 	void unlike(int nutzerId, int beitragId , AsyncCallback<Void> asyncCallback);
 	
 	void findLikeById(int id,  AsyncCallback<Like> asyncCallback);
+
+	void findBeitraegeaufEigenerPinnwand(int nutzerId, AsyncCallback<Vector<Beitrag>> asyncCallback);
+
+	void findBeitragAufEigenerPinnwandWrapper(int nutzerId, AsyncCallback<Vector<LikeBeitragWrapper>> callback);
 
 	
 }

@@ -55,6 +55,11 @@ public class Nutzer extends BusinessObject{
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	public String toString(){
+		return "<table><tr><td>"+this.getNickname()+"</td></tr></table>";
+	
+	
+	}
 
 	
 

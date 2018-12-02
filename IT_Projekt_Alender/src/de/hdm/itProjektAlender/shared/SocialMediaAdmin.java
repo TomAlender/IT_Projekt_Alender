@@ -5,6 +5,7 @@ import java.util.Vector;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
+import de.hdm.itProjektAlender.client.LikeBeitragWrapper;
 import de.hdm.itProjektAlender.shared.bo.Abonnement;
 import de.hdm.itProjektAlender.shared.bo.Beitrag;
 import de.hdm.itProjektAlender.shared.bo.Like;
@@ -49,7 +50,7 @@ public interface SocialMediaAdmin extends RemoteService {
 
 	public Vector<Abonnement> findAbonnmentsByNutzer(int nutzerId) throws IllegalArgumentException;
 
-	public Beitrag createBeitrag(int erstellerId, String text, int pinnwandId) throws IllegalArgumentException;
+	public Beitrag createBeitrag(int erstellerId, int pinnwandId, String text) throws IllegalArgumentException;
 
 	public Vector<Beitrag> findBeitraegeByPinnwand(int id) throws IllegalArgumentException;
 
@@ -70,4 +71,8 @@ public interface SocialMediaAdmin extends RemoteService {
 	public void unlike(int nutzerId, int beitragId) throws IllegalArgumentException;
 
 	public Like findLikeById(int id)throws IllegalArgumentException;
+
+	public Vector<Beitrag> findBeitraegeaufEigenerPinnwand(int nutzerId)throws IllegalArgumentException;
+
+	Vector<LikeBeitragWrapper> findBeitragAufEigenerPinnwandWrapper(int nutzerId);
 }

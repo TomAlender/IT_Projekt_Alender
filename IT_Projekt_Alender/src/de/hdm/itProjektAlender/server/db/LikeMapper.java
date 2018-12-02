@@ -48,7 +48,7 @@ private static LikeMapper likeMapper = null;
 			if (rs.next()) {
 				// Ergebnis-Tupel in Objekt umwandeln
 				Like l = new Like();
-				l.setId(rs.getInt("Pinnwand_Id"));
+				l.setId(rs.getInt("Like_Id"));
 				l.setErstellerId(rs.getInt("Ersteller_Id"));
 				l.setBeitrag_Id(rs.getInt("Beitrag_Id"));
 				l.setErstellungszeitpunkt(rs.getDate("Erstellungszeitpunkt"));
@@ -194,8 +194,7 @@ private static LikeMapper likeMapper = null;
 
 		try {
 			Statement stmt = con.createStatement();
-
-			stmt.executeUpdate("DELETE FROM like1 " + "WHERE Like_Id=" + l.getId());
+			stmt.executeUpdate("DELETE FROM `like1` WHERE `like1`.`Like_Id` = " + l.getId());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
