@@ -15,6 +15,9 @@ public class Kommentar extends Textbeitrag {
 		this.beitrag_Id = beitrag_Id;
 	}
 	
+	public String toString(){
+		return "<table><tr><td>"+this.getText()+"</td><td>"+this.getErstellungszeitpunkt()+"</td></tr></table>";
 	
+	}
 
 }

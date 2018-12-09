@@ -29,7 +29,7 @@ public class NavigationForm extends VerticalPanel {
 	ScrollPanel scroll = new ScrollPanel();
 	Button aboButton = new Button("Abonnieren");	
 	SocialMediaAdminAsync socialMedia = ClientsideSettings.getSocialMediaAdmin();
-	Button myPinnwandButton = new Button("Meine Pinnwand anzeigen");
+	Button myPinnwandButton = new Button("Meine Pinnwand");
 	
 	ProvidesKey<Nutzer> keyProvider = new ProvidesKey<Nutzer>() {
 		

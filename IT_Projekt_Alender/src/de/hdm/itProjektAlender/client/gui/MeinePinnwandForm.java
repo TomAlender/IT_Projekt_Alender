@@ -3,6 +3,8 @@ package de.hdm.itProjektAlender.client.gui;
 
 import java.util.Vector;
 
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
@@ -26,8 +28,10 @@ import com.google.gwt.user.client.ui.Widget;
 
 import de.hdm.itProjektAlender.client.ClientsideSettings;
 import de.hdm.itProjektAlender.client.LikeBeitragWrapper;
+import de.hdm.itProjektAlender.shared.SocialMediaAdmin;
 import de.hdm.itProjektAlender.shared.SocialMediaAdminAsync;
 import de.hdm.itProjektAlender.shared.bo.Beitrag;
+import de.hdm.itProjektAlender.shared.bo.Kommentar;
 import de.hdm.itProjektAlender.shared.bo.Like;
 import de.hdm.itProjektAlender.shared.bo.Nutzer;
 import de.hdm.itProjektAlender.shared.bo.Pinnwand;
@@ -37,12 +41,18 @@ public class MeinePinnwandForm extends VerticalPanel {
 
 	Label user = new Label();
 	TextArea text = new TextArea();
+//	TextArea kommtextarea = null;
 	
 	int nutzer = 0;
 	int anzahlLike;	
 	int pinnwandId=0;
-	int kommentaranzahl = 2;
+	
+	Label kommtext = null;
+	Label kommdatum = null;
+	Label kommNickname = new Label();
+	
 	Button neuBtn = new Button("Neuen Beitrag erstellen");
+	Button neuKommBtn = null;
 	VerticalPanel head = new VerticalPanel();
 	DecoratedPopupPanel simplePopup = new DecoratedPopupPanel(true);
 	final FlexTable likeTbl = new FlexTable();
@@ -52,7 +62,9 @@ public class MeinePinnwandForm extends VerticalPanel {
 	HorizontalPanel btnpanel = null;
 	VerticalPanel beitragPanel = null;
 	ScrollPanel scroll = new ScrollPanel();
-	
+	FlexTable innerFlex = null;
+	VerticalPanel kommPanel = null;
+	String textareastring = "";
 	
 	Label testlabel = null;
 	Label datum = null;
@@ -61,6 +73,7 @@ public class MeinePinnwandForm extends VerticalPanel {
 	Anchor edit = null;
 	
 	final FlexTable flexTable = new FlexTable();
+	
 	SocialMediaAdminAsync socialMedia = ClientsideSettings.getSocialMediaAdmin();
 
 	VerticalPanel beitrag = new VerticalPanel();
@@ -97,7 +110,8 @@ public class MeinePinnwandForm extends VerticalPanel {
 
 		@Override
 		public void onSuccess(Vector<LikeBeitragWrapper> result) {
-			for (LikeBeitragWrapper beitrag : result) {
+			for (LikeBeitragWrapper beitrag : result) {				
+				
 				pinnwandId = beitrag.getBeitrag().getPinnwand_Id();
 				int numRows = flexTable.getRowCount();
 				final int beitragId = beitrag.getBeitrag().getId();
@@ -114,6 +128,11 @@ public class MeinePinnwandForm extends VerticalPanel {
 				likebtn = new Anchor();
 				likecount = new Anchor();
 				
+				final TextArea kommtextarea=new TextArea();
+				
+				
+				neuKommBtn = new Button("Neuer Kommentar");
+				neuKommBtn.setStylePrimaryName("neu-btn");
 				if(beitrag.isLike() == true){				
 					likebtn.setText("Unlike");
 					likebtn.addClickHandler(new LikebtnClickhandler(nutzer, beitrag.getBeitrag().getId()));
@@ -129,49 +148,135 @@ public class MeinePinnwandForm extends VerticalPanel {
 					likecount.setText(beitrag.getAnzahlLikes()+ " Like");
 				}
 				
-				datum.setText(DateTimeFormat.getFormat("yyyy-MM-dd HH:mm:ss").format(beitrag.getBeitrag().getErstellungszeitpunkt()));
-//				socialMedia.findNutzerByLikes(beitrag.getBeitrag().getId(), new FindNutzerByLikeAsyncCallback());			
+				datum.setText(DateTimeFormat.getFormat("dd-MM-yyyy HH:mm:ss").format(beitrag.getBeitrag().getErstellungszeitpunkt()));
+			
 
-				Grid eins = new Grid(2, 2);
+				final Grid eins = new Grid(4, 4);
 				
 				testlabel.setText(beitrag.getBeitrag().getText());
 				eins.setWidget(0, 0, datum);
 				eins.setWidget(1, 0, testlabel);
 				eins.setWidget(0, 1, edit);
+				eins.setWidget(2, 0, likebtn);
+				eins.setWidget(2, 1, likecount);
+				eins.setWidget(3, 0, kommtextarea);
+				eins.setWidget(3, 1, neuKommBtn);
+				eins.setStylePrimaryName("eins");
 				
 				
-				Grid count = new Grid(2, 2);
+			
 
-				count.setWidget(0, 0, likecount);
-				count.setWidget(1, 0, likebtn);
-				count.setWidget(1, 1, kommbtn);
-				
-				
-				beitragPanel.add(eins);				
-				beitragPanel.add(count);
-				
+				socialMedia.findKommentareByBeitrag(beitragId, new AsyncCallback<Vector<Kommentar>>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void onSuccess(Vector<Kommentar> result) {
+						// TODO Auto-generated method stub
+						kommtext = new Label();
+						kommdatum = new Label();
+						beitragPanel.add(eins);
+						beitragPanel.setStylePrimaryName("beitrag");
+						for (Kommentar kommentar : result) {	
+							beitragPanel.add(new KommentarForm(kommentar));
+	
+						}
+					}
+				});
 				
 				
 				edit.addClickHandler(new EditClickhandler(beitragId));					
 
 				likecount.addMouseOverHandler(new LikeMouseOverHandler(beitragId));
 		
+				neuKommBtn.addClickHandler(new ClickHandler() {
+					
+					@Override
+					public void onClick(ClickEvent event) {
+						if (kommtextarea.getText().equals("")){
+							Window.alert("Leeres Textfeld! Bitte Text eingeben!");
+						}else{
+							socialMedia.createKommentar(nutzer, beitragId, kommtextarea.getText(), new CreateKommCallBack());
+						}
+						
+					}
+				});
+				
 				flexTable.setWidget(numRows, 0, beitragPanel);
 			}
 		}
 		
 	}
+	
+	
+	public class FindKommCallBack implements AsyncCallback <Vector<Kommentar>>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			Window.alert("Fehler beim Laden " + caught.getMessage());
+		}
+
+		@Override
+		public void onSuccess(Vector<Kommentar> result) {
+			// TODO Auto-generated method stub
+			kommtext = new Label();
+			kommdatum = new Label();
+			for (Kommentar kommentar : result) {	
+				//int kommRows = innerFlex.getRowCount();
+				Window.alert(""+kommentar.getText());
+				kommtext.setText(kommentar.getText());			
+				kommdatum.setText(DateTimeFormat.getFormat("dd-MM-yyyy HH:mm:ss").format(kommentar.getErstellungszeitpunkt()));
+				socialMedia.findNutzerById(kommentar.getErsteller_Id(), new KommNutzerAsyncCallback());	
+				Window.alert(""+kommtext+kommNickname);
+				Grid kommgrid = new Grid(3,3);
+			    kommgrid.setWidget(0, 0, kommdatum);				
+			    kommgrid.setWidget(0, 1, kommNickname);
+			    kommgrid.setWidget(1, 0, kommtext);	
+			    
+			    beitragPanel.add(kommgrid);
+			}
+			
+		}
+
+		
+	}
+	
+	public class CreateKommCallBack implements AsyncCallback<Kommentar>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			Window.alert("Fehler beim Laden " + caught.getMessage());
+		}
+
+		@Override
+		public void onSuccess(Kommentar result) {
+			
+			RootPanel.get("Details").clear();
+			RootPanel.get("Details").add(new MeinePinnwandForm(result.getErsteller_Id()));
+			//Window.alert("Kommentar angelegt");
+		}
+		
+	}	
+	
+
+	
 	public class FindPinnwandCallBack implements AsyncCallback<Pinnwand>{
 
 		@Override
 		public void onFailure(Throwable caught) {
 			// TODO Auto-generated method stub
-			
+			Window.alert("Fehler beim Laden " + caught.getMessage());
 		}
 
 		@Override
 		public void onSuccess(Pinnwand result) {
-			
+			neuBtn.setStylePrimaryName("neu-btn");
 			neuBtn.addClickHandler(new CreateClickhandler(nutzer, result.getId())); 
 		}
 		
@@ -190,8 +295,8 @@ public class MeinePinnwandForm extends VerticalPanel {
 		public void onSuccess(Beitrag result) {
 			// TODO Auto-generated method stub
 			RootPanel.get("Details").clear();
-			RootPanel.get("Details").add(new MeinePinnwandForm(result.getErsteller_Id()));
-			Window.alert("Beitrag wurde auf Ihrer Pinnwand angelegt!");
+			RootPanel.get("Details").add(new MeinePinnwandForm(nutzer));
+			
 		}
 
 	}
@@ -203,6 +308,21 @@ public class MeinePinnwandForm extends VerticalPanel {
 			// TODO Auto-generated method stub
 			user.setText("Eigene Pinnwand von: " + result.getNickname());
 			
+		}
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			Window.alert("Fehler beim Laden " + caught.getMessage());
+		}
+			
+		}
+	public class KommNutzerAsyncCallback implements AsyncCallback<Nutzer>{
+
+		@Override
+		public void onSuccess(Nutzer result) {
+			// TODO Auto-generated method stub
+			kommNickname.setText(result.getNickname());			
 		}
 
 		@Override
@@ -290,8 +410,12 @@ public class MeinePinnwandForm extends VerticalPanel {
 			// TODO Auto-generated method stub			
 			
 			String eingabe = text.getValue();		
+			if (text.getText().equals("")){
+				Window.alert("Leeres Textfeld! Bitte Text eingeben");
+			}else{
+				socialMedia.createBeitrag(nId, unique, eingabe, new CreatBeitragCallBack());
+			}
 			
-			socialMedia.createBeitrag(nId, unique, eingabe, new CreatBeitragCallBack());
 		}
 		
 	}
@@ -306,7 +430,6 @@ public class MeinePinnwandForm extends VerticalPanel {
 		}
 		@Override
 		public void onClick(ClickEvent event) {
-			// TODO Auto-generated method stub			
 			// TODO Auto-generated method stub
 			socialMedia.createLike(nId, bId, new CreateLikeAsyncCallback(nId)); 
 		}

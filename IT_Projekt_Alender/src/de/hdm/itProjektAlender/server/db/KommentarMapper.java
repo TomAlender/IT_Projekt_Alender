@@ -84,16 +84,16 @@ public class KommentarMapper extends TextbeitragMapper {
 					// Ergebnis-Tupel in Objekt umwandeln
 					Kommentar ko = new Kommentar();
 					ko.setId(rs.getInt("Kommentar_Id"));
-					ko.setBeitrag_Id(rs.getInt("Beitrg_Id"));
-					ko.setErstellungszeitpunkt(super.findTextbeitragById(beitragId).getErstellungszeitpunkt());
-					ko.setErsteller_Id(super.findTextbeitragById(beitragId).getErsteller_Id());
-					ko.setText(super.findTextbeitragById(beitragId).getText());
+					ko.setBeitrag_Id(rs.getInt("Beitrag_Id"));
+					ko.setErstellungszeitpunkt(super.findTextbeitragById(ko.getId()).getErstellungszeitpunkt());
+					ko.setErsteller_Id(super.findTextbeitragById(ko.getId()).getErsteller_Id());
+					ko.setText(super.findTextbeitragById(ko.getId()).getText());
 					
 				k.add(ko);
 				}
 		}
 			catch (SQLException e) {
-			e.printStackTrace();
+			e.printStackTrace(); 
 			return null;
 		}
 			return k;
@@ -116,7 +116,7 @@ public class KommentarMapper extends TextbeitragMapper {
 				stmt = con.createStatement();
 
 				// Jetzt erst erfolgt die tatsächliche Einfügeoperation
-				stmt.executeUpdate("INSERT INTO beitrag (Kommentar_Id, Beitrag_Id) " + "VALUES (" + k.getId() + ",'"
+				stmt.executeUpdate("INSERT INTO kommentar (Kommentar_Id, Beitrag_Id) " + "VALUES (" + k.getId() + ",'"
 						+ k.getBeitrag_Id() + "')");
 			}
 		 catch (SQLException e) {

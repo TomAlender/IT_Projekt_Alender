@@ -8,6 +8,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import de.hdm.itProjektAlender.client.LikeBeitragWrapper;
 import de.hdm.itProjektAlender.shared.bo.Abonnement;
 import de.hdm.itProjektAlender.shared.bo.Beitrag;
+import de.hdm.itProjektAlender.shared.bo.Kommentar;
 import de.hdm.itProjektAlender.shared.bo.Like;
 import de.hdm.itProjektAlender.shared.bo.Nutzer;
 import de.hdm.itProjektAlender.shared.bo.Pinnwand;
@@ -74,5 +75,11 @@ public interface SocialMediaAdmin extends RemoteService {
 
 	public Vector<Beitrag> findBeitraegeaufEigenerPinnwand(int nutzerId)throws IllegalArgumentException;
 
-	Vector<LikeBeitragWrapper> findBeitragAufEigenerPinnwandWrapper(int nutzerId);
+	public Vector<LikeBeitragWrapper> findBeitragAufEigenerPinnwandWrapper(int nutzerId);
+
+	public Vector<Kommentar> findKommentareByBeitrag(int beitragId);	
+
+	public Kommentar createKommentar(int erstellerId, int beitragId, String text);
+
+	public Vector<LikeBeitragWrapper> findBeitragAufFremderPinnwandWrapper(int nutzerId, int currentnutzer);
 }

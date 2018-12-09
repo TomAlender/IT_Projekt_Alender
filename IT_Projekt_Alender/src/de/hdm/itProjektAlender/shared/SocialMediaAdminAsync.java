@@ -7,6 +7,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import de.hdm.itProjektAlender.client.LikeBeitragWrapper;
 import de.hdm.itProjektAlender.shared.bo.Abonnement;
 import de.hdm.itProjektAlender.shared.bo.Beitrag;
+import de.hdm.itProjektAlender.shared.bo.Kommentar;
 import de.hdm.itProjektAlender.shared.bo.Like;
 import de.hdm.itProjektAlender.shared.bo.Nutzer;
 import de.hdm.itProjektAlender.shared.bo.Pinnwand;
@@ -72,7 +73,11 @@ public interface SocialMediaAdminAsync {
 
 	void findBeitraegeaufEigenerPinnwand(int nutzerId, AsyncCallback<Vector<Beitrag>> asyncCallback);
 
-	void findBeitragAufEigenerPinnwandWrapper(int nutzerId, AsyncCallback<Vector<LikeBeitragWrapper>> callback);
-
+	void findBeitragAufEigenerPinnwandWrapper(int nutzerId, AsyncCallback<Vector<LikeBeitragWrapper>> asyncallback);
 	
+	void findKommentareByBeitrag(int beitragId, AsyncCallback<Vector<Kommentar>> asyncallback);
+
+	void createKommentar(int erstellerId, int beitragId, String text, AsyncCallback<Kommentar> asyncCallback);
+	
+	void findBeitragAufFremderPinnwandWrapper(int nutzerId, int currentnutzer, AsyncCallback<Vector<LikeBeitragWrapper>> asyncallback);
 }

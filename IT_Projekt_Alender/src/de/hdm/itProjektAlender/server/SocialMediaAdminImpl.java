@@ -230,7 +230,7 @@ public class SocialMediaAdminImpl extends RemoteServiceServlet implements Social
 		 Like l = new Like();
 		 for (Like like2 : likeVector) {
 				if(like2.getErstellerId() == nutzerId){
-					System.out.println(nutzerId+"--"+like2.getErstellerId());
+					
 					l = findLikeById(like2.getId());
 					break;
 				}
@@ -319,6 +319,37 @@ public class SocialMediaAdminImpl extends RemoteServiceServlet implements Social
 		 }
 		 return vectorWrapper;
 	 }
+	 @Override
+	 public Vector<LikeBeitragWrapper> findBeitragAufFremderPinnwandWrapper(int nutzerId, int currentnutzer){
+		
+		 Vector<LikeBeitragWrapper> vectorWrapper = new Vector<LikeBeitragWrapper>();
+		 
+		 Vector<Beitrag> beitrag = findBeitraegeaufEigenerPinnwand(nutzerId);
+		 Vector<Nutzer> nutzerLikes = new Vector<Nutzer>();
+		 int anzahl = 0;
+		 
+		 for (Beitrag beitrag2 : beitrag) {			 
+			nutzerLikes = findNutzerByLikes(beitrag2.getId());
+			anzahl = nutzerLikes.size();
+			vectorWrapper.add(new LikeBeitragWrapper(checkLike(currentnutzer, beitrag2.getId()), beitrag2, anzahl));
+		 }
+		 return vectorWrapper;
+	 }
+	 @Override
+	 public Vector<Kommentar> findKommentareByBeitrag(int beitragId){
+		Vector<Kommentar> k = kMapper.findKommentarByBeitrag(beitragId);
+		return k;
+		 
+	 }
+	 @Override
+	 public Kommentar createKommentar(int erstellerId, int beitragId, String text){
+		 Kommentar k = new Kommentar();	
+		 k.setBeitrag_Id(beitragId);
+		 k.setErsteller_Id(erstellerId);
+		 k.setText(text);
+		 return kMapper.insert(k);
+			 
+		 }
 
 }
 	  

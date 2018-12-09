@@ -72,7 +72,7 @@ import de.hdm.itProjektAlender.shared.bo.*;
 			try{
 				Statement stmt = con.createStatement();
 				ResultSet rs = stmt.executeQuery(
-						"SELECT Beitrag_Id, Pinnwand_Id FROM beitrag " + "WHERE Pinnwand_Id=" + pinnwandId);
+						"SELECT Beitrag_Id, Pinnwand_Id FROM beitrag " + "WHERE Pinnwand_Id=" + pinnwandId +" ORDER BY Beitrag_Id DESC");
 				
 				
 				while(rs.next()){

@@ -94,7 +94,46 @@
  right: 25px;
 }
 
-
+.neu-btn {
+	background-color: #FFF;
+	color: #000000;
+	font-size: 15px;
+	padding: 5px 15px 5px 15px;
+	text-decoration: none;
+	width: auto;
+	outline-color: #000000;
+	margin-left: 5px;
+	margin-right: 5px;
+	cursor: pointer;
+	cursor: hand;
+	-webkit-box-shadow: inset 0px 0px 5px 3px rgba(215,215,215,0.85);
+	-moz-box-shadow: inset 0px 0px 5px 3px rgba(215,215,215,0.85);
+	box-shadow: inset 0px 0px 5px 3px rgba(215,215,215,0.85);
+	border: 0px solid #c7c7c7;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+}
+.beitrag{
+	background-color: #f3f3f3;
+	width:auto;
+    height:auto;
+    float:left;
+    padding:10px;
+    border-rigth: solid silver;
+    overflow: auto;
+    margin: 0px auto;
+    border-top:  solid silver;
+    border-left: solid silver;
+    border-right: solid silver;
+    border-bottom: solid silver;
+}
+.eins{
+	background-color: #FFF;
+	border-top:  solid silver;
+    border-left: solid silver;
+    border-right: solid silver;
+    border-bottom: solid silver;
+}
 
 /** Example rules used by the template application (remove for your app) */
 h1 {
