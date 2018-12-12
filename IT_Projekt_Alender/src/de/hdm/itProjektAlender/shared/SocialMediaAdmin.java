@@ -71,15 +71,21 @@ public interface SocialMediaAdmin extends RemoteService {
 
 	public void unlike(int nutzerId, int beitragId) throws IllegalArgumentException;
 
-	public Like findLikeById(int id)throws IllegalArgumentException;
+	public Like findLikeById(int id) throws IllegalArgumentException;
 
-	public Vector<Beitrag> findBeitraegeaufEigenerPinnwand(int nutzerId)throws IllegalArgumentException;
+	public Vector<Beitrag> findBeitraegeaufEigenerPinnwand(int nutzerId) throws IllegalArgumentException;
 
-	public Vector<LikeBeitragWrapper> findBeitragAufEigenerPinnwandWrapper(int nutzerId);
+	public Vector<LikeBeitragWrapper> findBeitragAufEigenerPinnwandWrapper(int nutzerId) throws IllegalArgumentException;
 
-	public Vector<Kommentar> findKommentareByBeitrag(int beitragId);	
+	public Vector<Kommentar> findKommentareByBeitrag(int beitragId) throws IllegalArgumentException;
 
-	public Kommentar createKommentar(int erstellerId, int beitragId, String text);
+	public Kommentar createKommentar(int erstellerId, int beitragId, String text) throws IllegalArgumentException;
 
-	public Vector<LikeBeitragWrapper> findBeitragAufFremderPinnwandWrapper(int nutzerId, int currentnutzer);
+	public Vector<LikeBeitragWrapper> findBeitragAufFremderPinnwandWrapper(int nutzerId, int currentnutzer) throws IllegalArgumentException;
+
+	public Kommentar findKommentarById(int id) throws IllegalArgumentException;
+
+	void deleteKommentar(Kommentar k) throws IllegalArgumentException;
+
+	void editKommentar(Kommentar k) throws IllegalArgumentException;
 }

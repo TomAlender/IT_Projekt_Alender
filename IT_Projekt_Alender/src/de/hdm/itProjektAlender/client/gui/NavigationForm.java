@@ -52,7 +52,9 @@ public class NavigationForm extends VerticalPanel {
 		navPanel.add(myPinnwandButton);
 		scroll.add(abo);
 		navPanel.add(scroll);
+		aboButton.setStylePrimaryName("nav-btn");
 		aboButton.addClickHandler(new AbonniereClickhandler());
+		myPinnwandButton.setStylePrimaryName("nav-btn");
 		myPinnwandButton.addClickHandler(new myPinnwandClickhandler());
 		
 		this.add(navPanel);
@@ -81,7 +83,8 @@ public class NavigationForm extends VerticalPanel {
 		@Override
 		public void onClick(ClickEvent event) {
 			RootPanel.get("Details").clear();
-						
+			RootPanel.get("Navigator").clear();	
+			RootPanel.get("Navigator").add(new NavigationForm());
 		    RootPanel.get("Details").add(new MeinePinnwandForm(Integer.parseInt(Cookies.getCookie("id"))));
 			
 		}

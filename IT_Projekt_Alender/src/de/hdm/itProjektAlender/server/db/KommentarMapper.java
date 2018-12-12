@@ -50,7 +50,7 @@ public class KommentarMapper extends TextbeitragMapper {
 				// Ergebnis-Tupel in Objekt umwandeln
 				Kommentar k = new Kommentar();
 				k.setId(rs.getInt("Kommentar_Id"));
-				k.setBeitrag_Id(rs.getInt("Beitrg_Id"));
+				k.setBeitrag_Id(rs.getInt("Beitrag_Id"));
 				k.setErstellungszeitpunkt(super.findTextbeitragById(id).getErstellungszeitpunkt());
 				k.setErsteller_Id(super.findTextbeitragById(id).getErsteller_Id());
 				k.setText(super.findTextbeitragById(id).getText());

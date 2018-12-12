@@ -93,25 +93,47 @@
  top: 30px;
  right: 25px;
 }
+.like-btn{
+  background:#4c69ba;
+  display: inline-block;
+  color:#fff;
+  padding: 5px 8px;
+  text-decoration: none;
+  font-size: 0.8em;
+  border-radius: 3px;
+  text-shadow:0 -1px 0 rgba(0,0,0,.2);
+}
+.like-btn:hover{
+	background: #5b7bd5;
+}
+.nav-btn{
+  background:#4c69ba;
+  display: inline-block;
+  color:#fff;
+  padding: 5px 8px;
+  text-decoration: none;
+  font-size: 1.0em;
+  border-radius: 3px;
+  text-shadow:0 -1px 0 rgba(0,0,0,.2);
+  margin-bottom: 3px
+}
 
 .neu-btn {
-	background-color: #FFF;
-	color: #000000;
-	font-size: 15px;
-	padding: 5px 15px 5px 15px;
-	text-decoration: none;
-	width: auto;
-	outline-color: #000000;
-	margin-left: 5px;
-	margin-right: 5px;
-	cursor: pointer;
-	cursor: hand;
-	-webkit-box-shadow: inset 0px 0px 5px 3px rgba(215,215,215,0.85);
-	-moz-box-shadow: inset 0px 0px 5px 3px rgba(215,215,215,0.85);
-	box-shadow: inset 0px 0px 5px 3px rgba(215,215,215,0.85);
-	border: 0px solid #c7c7c7;
-	border-radius: 3px;
-	-moz-border-radius: 3px;
+	background:#4c69ba;
+  display: inline-block;
+  color:#fff;
+  padding: 5px 8px;
+  text-decoration: none;
+  font-size: 1em;
+  border-radius: 3px;
+  text-shadow:0 -1px 0 rgba(0,0,0,.2);
+}
+.beitrag-text{
+	 font-size: 1.2em;
+	 font-weight: bold;
+	 border-radius: 2px;
+	 margin-bottom: 5px;
+	 margin-top:5px;
 }
 .beitrag{
 	background-color: #f3f3f3;
