@@ -170,7 +170,7 @@ public class SocialMediaProject implements EntryPoint {
 	    
 	   
 	    
-	    //TopPanel für Logut
+	    //TopPanel fï¿½r Logut
 //	    VerticalPanel topPanel = new VerticalPanel();
 //	    RootPanel.get("Header").add(topPanel);
 	    //Erstellen Projektmarktzplatz Button
@@ -258,9 +258,9 @@ public class SocialMediaProject implements EntryPoint {
 				
 				socialmedia.createPinnwand(nutzer.getId(), new CreatePinnwandCallback());
 				
-					// Das erfolgreiche Hinzufügen eines Kunden wird an den Kunden- und
+					// Das erfolgreiche Hinzufï¿½gen eines Kunden wird an den Kunden- und
 					// Kontenbaum propagiert.
-				Window.alert("Glückwunsch " + tnickname.getText()+" ! Sie sind jetzt Mitglied bei Gesichtsbuch!");
+				Window.alert("Glï¿½ckwunsch " + tnickname.getText()+" ! Sie sind jetzt Mitglied bei Gesichtsbuch!");
 				loadSocialMediaAdmin(nutzer.getId());
 				
 				

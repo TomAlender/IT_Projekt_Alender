@@ -85,8 +85,9 @@ public class NavigationForm extends VerticalPanel {
 			RootPanel.get("Details").clear();
 			RootPanel.get("Navigator").clear();	
 			RootPanel.get("Navigator").add(new NavigationForm());
-		    RootPanel.get("Details").add(new MeinePinnwandForm(Integer.parseInt(Cookies.getCookie("id"))));
-			
+			//RootPanel.get("Details").add(new MeinePinnwandForm(Integer.parseInt(Cookies.getCookie("id"))));
+			//RootPanel.get("Details").add(new CellTest(Integer.parseInt(Cookies.getCookie("id"))));
+		RootPanel.get("Details").add(new CellTableWrapper());
 		}
 		
 	}

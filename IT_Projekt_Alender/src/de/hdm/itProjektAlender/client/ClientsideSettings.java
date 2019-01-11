@@ -13,8 +13,7 @@ import de.hdm.itProjektAlender.shared.LoginService;
 public class ClientsideSettings extends CommonSettings{
 	
 	private static SocialMediaAdminAsync socialMediaAdmin = null;
-	private static LoginServiceAsync loginInfo = null;
-	
+		
 private static LoginServiceAsync loginService = null;
 	
 	/**
@@ -30,7 +29,7 @@ private static LoginServiceAsync loginService = null;
 	
 	/**
 	 * Auslesen des applikationsweiten (Client-seitig) zentralen Loggers.
-	 * @return die Logger-Instanz für die Server-Seite.
+	 * @return die Logger-Instanz fï¿½r die Server-Seite.
 	 */
 	
 	public static Logger getLogger(){
@@ -39,7 +38,7 @@ private static LoginServiceAsync loginService = null;
 	
 	/**
 	 * Durch die Methode wird die LoginService erstellt, sofern diese noch nicht besteht.
-	 * Bei erneutem Aufruf der Methode wird das bereits angelegte Objekt zurückgegeben.
+	 * Bei erneutem Aufruf der Methode wird das bereits angelegte Objekt zurï¿½ckgegeben.
 	 * 
 	 * @return eindeutige Instanz des Typs <code>LoginServiceAsync</code>
 	 */
@@ -53,7 +52,7 @@ private static LoginServiceAsync loginService = null;
 	public static SocialMediaAdminAsync getSocialMediaAdmin() {
 	    // Gab es bislang noch keine BankAdministration-Instanz, dann...
 	    if (socialMediaAdmin == null) {
-	      // Zunächst instantiieren wir SocialMedia Applikation
+	      // Zunï¿½chst instantiieren wir SocialMedia Applikation
 	      socialMediaAdmin = GWT.create(SocialMediaAdmin.class);
 	    }
 
